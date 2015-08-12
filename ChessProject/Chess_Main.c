@@ -25,7 +25,7 @@ int main(int argc, char* args[])
 	//update screen
 	SDL_Flip(screen);
 	
-	//pause
+	//pause...
 	SDL_Delay(5000);
 
 	//free the loaded image
