@@ -17,7 +17,7 @@ int main(int argc, char* args[])
 	screen = SDL_SetVideoMode(640, 480, 32, SDL_SWSURFACE);
 
 	//load image
-	image = SDL_LoadBMP("C:\\Users\\amit\\Desktop\\Amit.bmp");
+	image = SDL_LoadBMP("C:\\Users\\DELL\\Desktop\\kitty.bmp");
 
 	//apply image to screen
 	SDL_BlitSurface(image, NULL, screen, NULL);
