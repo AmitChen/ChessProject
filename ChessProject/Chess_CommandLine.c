@@ -38,7 +38,7 @@ void SettingsState(){
 }
 
 //prints the board to console
-void print_board()
+void print_board(char some_board[BOARD_SIZE][BOARD_SIZE])
 {
 	int i, j;
 	print_line();
@@ -46,7 +46,7 @@ void print_board()
 	{
 		printf((j < 9 ? " %d" : "%d"), j + 1);
 		for (i = 0; i < BOARD_SIZE; i++){
-			printf("| %c ", board[i][j]);
+			printf("| %c ", some_board[i][j]);
 		}
 		printf("|\n");
 		print_line();
