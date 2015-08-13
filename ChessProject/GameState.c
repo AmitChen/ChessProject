@@ -5,7 +5,16 @@
 
 
 void MovePieceOnBoard(int x, int y, int i , int j, char* promotion)
-{ //Move <x,y> to <i,j> x
+{  //Move <x,y> to <i,j> x
+
+	struct Position pos = { -1, -1 }; 
+	pos.x = (int)(x - 'a'); // 'translate' a-h to 0-7
+	pos.y = y - (int)('1'); // 'translate' 1-8 to 0-7
+
+	if (pos.x < 0 || pos.x>7 || pos.y < 0 || pos.y>7 ){
+		//TODO: if gui mode send to chess_gui to print a message, else send to chess_commandLine to print a message.
+		return;
+	}
 
 }
 
@@ -27,7 +36,7 @@ void GetScore(int depth, char* move)
 void SaveToFile(char* fileName)
 {
 	//open a new file. 'w' for writing mode.
-	FILE *fb = fopen(fileName, "w");
+	FILE *fb = fopen(fileName, "w");  //TODO: add path before file name
 
 	//xml decleration 
 	fprintf(fb, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"); 
