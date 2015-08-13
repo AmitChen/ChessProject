@@ -51,7 +51,8 @@ void start();
 
 //Game State Functions:
 
-
+// GUI Functions:
+void DrawGraficalUserInterface();
 
 struct Position{
 	int x;

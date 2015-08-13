@@ -8,14 +8,16 @@ int console_or_gui = 0; // default mode is console
 
 int main(int argc, char* args[])
 {
-	//chessprog is set to 0 for console mode 1 for console mode
-	if (!strcmp("console", args[1])){
-		console_or_gui = 0;
-	}
-	else{
-		if (!strcmp("gui", args[1])){
-			console_or_gui = 1;
-		}
-	}
+	// THIS IS IN COMMENT BECAUSE IT RECIEVES ARGUMENT FROM CONSOLE ( SOMETHING WE DON'T WISH TO APPLY NOW WHEN DEBUGGING )
+	////chessprog is set to 0 for console mode 1 for console mode
+	//if (!strcmp("console", args[1])){
+	//	console_or_gui = 0;
+	//}
+	//else{
+	//	if (!strcmp("gui", args[1])){
+	//		console_or_gui = 1;
+	//	}
+	//}
+	DrawGraficalUserInterface();
 	return 0;
 }
