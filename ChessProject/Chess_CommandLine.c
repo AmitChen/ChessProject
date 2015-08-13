@@ -37,7 +37,35 @@ void SettingsState(){
 	}
 }
 
+//prints the board to console
+void print_board(char some_board[BOARD_SIZE][BOARD_SIZE])
+{
+	int i, j;
+	print_line();
+	for (j = BOARD_SIZE - 1; j >= 0; j--)
+	{
+		printf((j < 9 ? " %d" : "%d"), j + 1);
+		for (i = 0; i < BOARD_SIZE; i++){
+			printf("| %c ", some_board[i][j]);
+		}
+		printf("|\n");
+		print_line();
+	}
+	printf("   ");
+	for (j = 0; j < BOARD_SIZE; j++){
+		printf(" %c  ", (char)('a' + j));
+	}
+	printf("\n");
+}
 
+void print_line(){
+	int i;
+	printf("  |");
+	for (i = 1; i < BOARD_SIZE * 4; i++){
+		printf("-");
+	}
+	printf("|\n");
+}
 
 void getInput(){ // we get the input line from the user and return it as a 5 size array
 	char c; // the next character to be read from user
