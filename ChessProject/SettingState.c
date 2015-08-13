@@ -10,7 +10,7 @@ char* next_player;
 
 void setGameMode(int mode)
 {
-	//gets a mode value, 1 or 2, sets the game mode (a global variable)
+	//gets a mode value, 1 or 2, sets the glame mode (a global variable)
 }
 
 void setDifficulty(char* difficulty)
