@@ -8,6 +8,7 @@ int difficulty = 1;
 char* firstPlayer = "white";
 char* next_player;
 
+
 void setGameMode(int mode)
 {
 	//gets a mode value, 1 or 2, sets the game mode (a global variable)
@@ -42,8 +43,30 @@ void nextPlayer(char* next_player){
 }
 
 //removes a piece from the board
-void removePiece(){
+void removePiece(struct Position pos){
 
 
+}
+
+//sets a piece on the board
+void setPiece(struct Position pos, char* piece){
+
+
+}
+
+
+//print the board to screen
+void PrintBoard(){
+	
+}
+
+//frees all memory and terminates the program
+void quit(){
+
+}
+
+//starts the game 
+void start(){
+	
 }
 

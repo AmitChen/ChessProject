@@ -58,6 +58,15 @@ void print_board()
 	printf("\n");
 }
 
+void print_line(){
+	int i;
+	printf("  |");
+	for (i = 1; i < BOARD_SIZE * 4; i++){
+		printf("-");
+	}
+	printf("|\n");
+}
+
 void getInput(){ // we get the input line from the user and return it as a 5 size array
 	char c; // the next character to be read from user
 	int j = 1; // counts the length of a word
