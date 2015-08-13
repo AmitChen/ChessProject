@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "Chess.h"
 
-/// gui gui gui bla bla bla
+
 void DrawGraficalUserInterface()
 {
 }
