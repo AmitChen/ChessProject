@@ -3,7 +3,6 @@
 #include <assert.h>
 #include "Chess.h"
 
-
 void MovePieceOnBoard(int x, int y, int i , int j, char* promotion)
 {  //Move <x,y> to <i,j> x
 
@@ -45,31 +44,29 @@ void SaveToFile(char* fileName)
 	fprintf(fb, "<game>\n");
 
 	//---settings---
-	fprintf(fb, "<next_turn> %d </next_turn>\n", nextPlayer);
-	fprintf(fb, "<game_mode> %s </game_mode>\n", game_mode);
-	fprintf(fb, "<difficulty> %s </difficulty>\n", difficulty);
-	fprintf(fb, "<user_color> %s </user_color>\n", user_color);
+	fprintf(fb, "<next_turn>%s</next_turn>\n", next_player);
+	fprintf(fb, "<game_mode>%d</game_mode>\n", game_mode);
+	fprintf(fb, "<difficulty>%d</difficulty>\n", difficulty);
+	fprintf(fb, "<user_color>%s</user_color>\n", user_color);
 
 	//---board---
 	fprintf(fb, "<board>\n");
 	for (int i = 0; i < 8; i++) //for each row in the board
 	{
-		fprintf(fb, "<row_%d>", i);
+		fprintf(fb, "<row_%d>", 8-i);
 
 		for (int j = 0; j < 8; j++) //go for each col in the row and print 8 characters that represent the row's content.
 		{
 			char piece=board[i][j];
-			if (!strcmp(piece, EMPTY))
+			if (piece==' ')
 			{ //put the char '_' for an empty spot
-				piece = "_";
+				piece = '_';
 			}
-			fprintf(fb, "%d", piece);
+			fprintf(fb, "%c", piece);
 		}
-		fprintf(fb, "</row_%d>\n", i);
+		fprintf(fb, "</row_%d>\n", 8-i);
 	}
 	fprintf(fb, "</board>\n");
-
-
 	fprintf(fb, "</game>\n");
 
 	//close the file

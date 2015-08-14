@@ -1,13 +1,13 @@
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
+#include <stdlib.h>
 #include "Chess.h"
 
 int game_mode=1;
 int difficulty = 1;
-char* firstPlayer = "white";
-char* next_player;
-char* user_color = "white"; // human user color default is white?
+char* next_player = "white";
+char* user_color = "white"; 
 
 
 void setGameMode(int mode)
@@ -29,9 +29,19 @@ void setUserColor(char* color)
 }
 
 //loads from an xml file and sets the game data.
-void loadGame(char* path)
+void loadGame(char* fileName)
 {
-	//TODO
+	FILE *file = fopen(fileName, "r");
+	char line[200]; // maximum length of a line is 200 chars
+	for (int i = 0; i < 2; i++){ // skip first 2 lines
+		while (fgetc(file) != '\n'){
+			//do nothing . just skipping first 2 lines
+		}
+	}
+	while ((fgets(line,sizeof(file), file)) != NULL) {
+		printf("%s", &line); // for tests
+		// do the actual reading here
+	}
 }
 
 //remove all pieces from the board
@@ -45,7 +55,7 @@ void clearBoard()
 }
 
 //which player plays first
-void nextPlayer(char* n_player){
+void setNextPlayer(char* n_player){
 	next_player = n_player;
 }
 

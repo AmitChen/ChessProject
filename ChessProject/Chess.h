@@ -21,7 +21,7 @@ int extern inputLeaks;
 int extern game_mode;
 int extern console_or_gui;
 int extern difficulty;
-extern char* firstPlayer;
+extern char* next_player;
 extern char* user_color;
 #define BOARD_SIZE 8
 char extern board[BOARD_SIZE][BOARD_SIZE];
@@ -50,6 +50,7 @@ void quit();
 void start();
 
 //Game State Functions:
+void SaveToFile(char* fileName);
 
 // GUI Functions:
 void DrawGraficalUserInterface();
