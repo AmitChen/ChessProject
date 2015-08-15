@@ -8,10 +8,10 @@ int inputLeaks = 0;
 
 void CommandLine()
 {
-	printf("Enter game settings:\n");
+	print_message("Enter game settings:\n");
 	SettingsState();
-	return 0;
 }
+
 void SettingsState(){
 	//free all previous words before getting a new input
 	for (int i = 0; i < 4; i++){
@@ -227,9 +227,33 @@ void SettingsState(){
 
 	if (strcmp(words[0], "quit"))
 	{
-
+		free(words[0]);
+		inputLeaks--;
+		words[0] = NULL;
+		exit(1);
 	}
 	else // "start"
+	{
+		free(words[0]);
+		inputLeaks--;
+		words[0] = NULL;
+		printf("\n");
+		TransitionState();
+	}
+}
+
+void TransitionState(){
+	//TODO: check if one of the kings is missing,if so, print a message and go back to setting state, else, go to game state.
+	//TODO: check tie or lose case (sent to game logic that will have this method)
+}
+
+void GameState()
+{
+	if (game_mode == MODE_2PLAYERS)
+	{
+		printf("%d player - enter your move:\n", next_player);
+	}
+	else
 	{
 
 	}
