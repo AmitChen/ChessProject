@@ -98,7 +98,16 @@ void SettingsState(){
 
 #pragma region load
 
-
+		if (!strcmp(words[0], "load")){
+			if (!loadGame(words[1]))
+			{
+				print_message("Wrong file name\n");
+			}
+			else
+			{
+				print_board(board);
+			}
+		}
 
 #pragma endregion load
 
