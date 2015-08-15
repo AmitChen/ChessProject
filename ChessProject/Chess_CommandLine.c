@@ -26,6 +26,7 @@ void SettingsState(){
 
 	while (strcmp(words[0], "quit") && strcmp(words[0], "start"))  //main loop in setting state
 	{
+
 #pragma region game_mode
 
 		if (!strcmp(words[0], "game_mode")){
@@ -146,12 +147,16 @@ void SettingsState(){
 
 #pragma region set
 
+		//TODO: check if adding the piece is legal (more than 1 king, more than 2 rooks...)
+		//TODO: check if words[2] is something other than black or white
+		//TODO: call setPiece (from gameState)
+
 		if (!strcmp(words[0], "set")){
 
 			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
-			int y = words[1][3] - (int)('1');
+			int y = words[1][3] - (int)('1');// char y is mapped to a position in the board [0.....7]
 			struct Position pos = { x, y };
-			if (x < 0 || x>7 || y < 0 || y>7){
+			if (x < 0 || x>7 || y < 0 || y>7){ //if x or y are not between 0 to 7
 				print_message(WRONG_POSITION);
 			}
 			else{
@@ -208,6 +213,15 @@ void SettingsState(){
 		}
 
 #pragma endregion set
+
+#pragma region print
+
+		if (!strcmp(words[0], "print")){
+			print_board(board);
+		}
+
+#pragma endregion print
+
 
 	} //end main loop of setting state
 
