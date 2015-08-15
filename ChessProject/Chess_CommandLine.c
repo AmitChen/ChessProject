@@ -22,30 +22,59 @@ void SettingsState(){
 		}
 	}
 	getInput();
-	while (strcmp(words[0], "quit") && strcmp(words[0], "start"))
+
+
+	while (strcmp(words[0], "quit") && strcmp(words[0], "start"))  //main loop in setting state
 	{
+#pragma region game_mode
+
 		if (!strcmp(words[0], "game_mode")){
 
 			char* mode = EMPTY;
-			
-			if (!strcmp(words[1], "1")) //if user typed 1 for mode- 
+
+			if (!strcmp(words[1], "1")) //if user typed 1 for mode 
 			{
 				mode = "2 players";
-				setGameMode(MODE_2PLAYERS);
+				setGameMode(MODE_2PLAYERS); //send to settingState for update
 			}
-			else if (!strcmp(words[1], "2"))
+			else if (!strcmp(words[1], "2"))//if user typed 2 for mode
 			{
-				mode="player vs. AI";
-				setGameMode(MODE_PLAYER_VS_AI);
+				mode = "player vs. AI";
+				setGameMode(MODE_PLAYER_VS_AI);//send to settingState for update
 			}
 			else
 			{
 				print_message("Wrong game mode\n");
 			}
 
-			print_message("Running game in %d mode\n",mode);
+			print_message("Running game in %d mode\n", mode);
 		}
-	}
+#pragma endregion game_mode
+
+#pragma region difficulty
+
+		if (!strcmp(words[0], "difficulty")){
+			if (game_mode != MODE_PLAYER_VS_AI)
+			{
+				print_message(ILLEGAL_COMMAND);
+			}
+			else
+			{
+				if (!strcmp(words[1], "best")) //if user typed 'best' for difficulty 
+				{
+
+				}
+
+			}
+		}
+
+#pragma endregion difficulty
+
+#pragma region user_color
+#pragma endregion user_color
+
+	} //end main loop of setting state
+
 	if (strcmp(words[0], "quit"))
 	{
 
@@ -93,7 +122,7 @@ void getInput(){ // we get the input line from the user and return it as a 5 siz
 	words[k] = (char*)calloc(1, sizeof(char)); //allocate one char to the first word
 	inputLeaks++;
 	assert(words[k] != NULL);
-	c = '\0';   
+	c = '\0';
 	while (c != '\n')
 	{
 		c = getc(stdin);     //read the input from keyboard standard input
