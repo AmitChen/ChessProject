@@ -62,7 +62,18 @@ void SettingsState(){
 			{
 				if (!strcmp(words[1], "best")) //if user typed 'best' for difficulty 
 				{
-
+					setDifficulty(DIFF_BEST);
+				}
+				else if (!strcmp(words[1], "depth"))
+				{
+					if (((int)strtof(words[2])>4) || ((int)strtof(words[2])<1)) //if depth isn't between 1 to 4
+					{
+						print_message("Wrong value for minimax depth. The value should be between 1 to 4\n");
+					}
+					else
+					{
+						setDifficulty((int)strtof(words[2]));
+					}
 				}
 
 			}
@@ -71,7 +82,21 @@ void SettingsState(){
 #pragma endregion difficulty
 
 #pragma region user_color
+
+		if (!strcmp(words[0], "user_color")){
+			if (game_mode != MODE_PLAYER_VS_AI)
+			{
+				print_message(ILLEGAL_COMMAND);
+			}
+			else
+			{ //TODO: ask if I can assume that user will always put black/white. or illigal value.
+				setUserColor(words[1]);
+			}
+		}
+
 #pragma endregion user_color
+
+
 
 	} //end main loop of setting state
 
