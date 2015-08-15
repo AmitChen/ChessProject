@@ -16,6 +16,12 @@
 #define B_QUEEN 'Q'
 #define B_KING 'K'
 
+#define MODE_2PLAYERS 1
+#define MODE_PLAYER_VS_AI 2
+
+#define perror_message(func_name) (perror("Error: standard function %s has failed", func_name))
+#define print_message(message) (printf("%s", message));
+
 extern char* words[5];
 int extern inputLeaks;
 int extern game_mode;

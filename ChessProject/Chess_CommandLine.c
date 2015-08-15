@@ -3,7 +3,6 @@
 #include <assert.h>
 #include "Chess.h"
 
-
 char* words[5] = { NULL, NULL, NULL, NULL,NULL };
 int inputLeaks = 0;
 
@@ -25,7 +24,27 @@ void SettingsState(){
 	getInput();
 	while (strcmp(words[0], "quit") && strcmp(words[0], "start"))
 	{
+		if (!strcmp(words[0], "game_mode")){
 
+			char* mode = EMPTY;
+			
+			if (!strcmp(words[1], "1")) //if user typed 1 for mode- 
+			{
+				mode = "2 players";
+				setGameMode(MODE_2PLAYERS);
+			}
+			else if (!strcmp(words[1], "2"))
+			{
+				mode="player vs. AI";
+				setGameMode(MODE_PLAYER_VS_AI);
+			}
+			else
+			{
+				print_message("Wrong game mode\n");
+			}
+
+			print_message("Running game in %d mode\n",mode);
+		}
 	}
 	if (strcmp(words[0], "quit"))
 	{
