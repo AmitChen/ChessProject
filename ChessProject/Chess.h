@@ -51,12 +51,13 @@ void setDifficulty(char* difficulty);
 void setUserColor(char* color);
 void loadGame(char* path);
 void clearBoard();
-void nextPlayer(char* next_player);
+void setNextPlayer(char* n_player);
 void removePiece(struct Position pos);
 void setPiece(struct Position pos, char* piece);
 void PrintBoard();
 void quit();
 void start();
+char* findSubstring(char* line, char* opt1, char* opt2);
 
 //Game State Functions:
 void SaveToFile(char* fileName);
