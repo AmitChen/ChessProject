@@ -62,7 +62,18 @@ void SettingsState(){
 			{
 				if (!strcmp(words[1], "best")) //if user typed 'best' for difficulty 
 				{
-
+					setDifficulty(DIFF_BEST);
+				}
+				else if (!strcmp(words[1], "depth"))
+				{
+					if (((int)strtof(words[2])>4) || ((int)strtof(words[2])<1)) //if depth isn't between 1 to 4
+					{
+						print_message("Wrong value for minimax depth. The value should be between 1 to 4\n");
+					}
+					else
+					{
+						setDifficulty((int)strtof(words[2]));
+					}
 				}
 
 			}
@@ -71,7 +82,123 @@ void SettingsState(){
 #pragma endregion difficulty
 
 #pragma region user_color
+
+		if (!strcmp(words[0], "user_color")){
+			if (game_mode != MODE_PLAYER_VS_AI)
+			{
+				print_message(ILLEGAL_COMMAND);
+			}
+			else
+			{ //TODO: ask if I can assume that user will always put black/white. or illigal value.
+				setUserColor(words[1]);
+			}
+		}
+
 #pragma endregion user_color
+
+#pragma region load
+
+
+
+#pragma endregion load
+
+#pragma region clear
+
+		if (!strcmp(words[0], "clear")){
+			clearBoard();
+		}
+
+#pragma endregion clear
+
+#pragma region next_player
+
+		if (!strcmp(words[0], "next_player")){ //TODO: ask if I can assume that user will always put black/white. or illigal value.
+			setNextPlayer(words[1]);
+		}
+
+#pragma endregion next_player
+
+#pragma region remove
+
+		if (!strcmp(words[0], "rm")){
+
+			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
+			int y = words[1][3] - (int)('1');
+			struct Position pos = { x, y };
+			if (x < 0 || x>7 || y < 0 || y>7){
+				print_message(WRONG_POSITION);
+			}
+			else{
+				removePiece(pos);
+			}
+		}
+
+#pragma endregion remove
+
+#pragma region set
+
+		if (!strcmp(words[0], "set")){
+
+			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
+			int y = words[1][3] - (int)('1');
+			struct Position pos = { x, y };
+			if (x < 0 || x>7 || y < 0 || y>7){
+				print_message(WRONG_POSITION);
+			}
+			else{
+				char piece = EMPTY;
+				
+					if (!strcmp(words[3], "king"))
+					{
+						if (!strcmp(words[2], "white"))
+							piece = W_KING;
+						else if (!strcmp(words[2], "black"))
+							piece = B_KING;
+					}
+					else if (!strcmp(words[3], "queen"))
+					{
+						if (!strcmp(words[2], "white"))
+							piece = W_QUEEN;
+						else if (!strcmp(words[2], "black"))
+							piece = B_QUEEN;
+					}
+					else if (!strcmp(words[3], "rook"))
+					{
+						if (!strcmp(words[2], "white"))
+							piece = W_ROOK;
+						else if (!strcmp(words[2], "black"))
+							piece = B_ROOK;
+					}
+					else if (!strcmp(words[3], "knight"))
+					{
+						if (!strcmp(words[2], "white"))
+							piece = W_KNIGHT;
+						else if (!strcmp(words[2], "black"))
+							piece = B_KNIGHT;
+					}
+					else if (!strcmp(words[3], "bishop"))
+					{
+						if (!strcmp(words[2], "white"))
+							piece = W_BISHOP;
+						else if (!strcmp(words[2], "black"))
+							piece = B_BISHOP;
+					}
+					else if (!strcmp(words[3], "pawn"))
+					{
+						if (!strcmp(words[2], "white"))
+							piece = W_PAWN;
+						else if (!strcmp(words[2], "black"))
+							piece = B_PAWN;
+					}
+					else
+					{
+						print_message(ILLEGAL_COMMAND);
+					}
+				
+			}
+		}
+
+#pragma endregion set
 
 	} //end main loop of setting state
 
