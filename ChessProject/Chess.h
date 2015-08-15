@@ -49,7 +49,7 @@ void print_line();
 void setGameMode(int mode);  //gets a mode value, 1 or 2, sets the game mode (a global variable) 
 void setDifficulty(char* difficulty);
 void setUserColor(char* color);
-void loadGame(char* path);
+int loadGame(char* path);
 void clearBoard();
 void setNextPlayer(char* n_player);
 void removePiece(struct Position pos);
@@ -58,6 +58,7 @@ void PrintBoard();
 void quit();
 void start();
 char* findSubstring(char* line, char* opt1, char* opt2);
+char* findDifficulty(char* line, char* opt1, char* opt2, char* opt3, char* opt4, char* opt5);
 
 //Game State Functions:
 void SaveToFile(char* fileName);

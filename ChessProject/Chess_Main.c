@@ -18,7 +18,7 @@ int main(int argc, char* args[])
 	//		console_or_gui = 1;
 	//	}
 	//}
-	//DrawGraficalUserInterface();
+	//	
 	clearBoard();
 	loadGame("test.xml");
 //	SaveToFile("test.xml");

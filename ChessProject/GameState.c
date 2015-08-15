@@ -46,7 +46,10 @@ void SaveToFile(char* fileName)
 	//---settings---
 	fprintf(fb, "<next_turn>%s</next_turn>\n", next_player);
 	fprintf(fb, "<game_mode>%d</game_mode>\n", game_mode);
-	fprintf(fb, "<difficulty>%d</difficulty>\n", difficulty);
+	if (difficulty == DIFF_BEST)
+		fprintf(fb, "<difficulty>best</difficulty>\n");
+	else
+		fprintf(fb, "<difficulty>%d</difficulty>\n", difficulty);
 	fprintf(fb, "<user_color>%s</user_color>\n", user_color);
 
 	//---board---
