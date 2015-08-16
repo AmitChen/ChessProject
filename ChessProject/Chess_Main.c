@@ -4,6 +4,7 @@
 #include "Chess.h"
 #include "SDL.h"
 #include "SDL_video.h"
+#include <windows.h>
 int console_or_gui = 0; // default mode is console
 
 int main(int argc, char* args[])
@@ -20,8 +21,12 @@ int main(int argc, char* args[])
 	//}
 	//	
 	clearBoard();
-	loadGame("test.xml");
+//	loadGame("test.xml");
 //	SaveToFile("test.xml");
+	board[5][7] = W_ROOK;
+	board[2][5] = B_PAWN;
+	//print_board(board); /// for console
+	DrawGraficalUserInterface(); //
 
 	return 0;
 }

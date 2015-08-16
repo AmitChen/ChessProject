@@ -1,6 +1,8 @@
 #ifndef CHESS_H
 #define CHESS_H
 
+#include "SDL.h"
+#include "SDL_video.h"
 #define EMPTY ' '
 #define W_PAWN 'm'
 #define W_BISHOP 'b'
@@ -63,28 +65,38 @@ void TransitionState();
 void GameState();
 void CommandLine();
 void getInput();
+void printInvalidPos();
 
 
 //Setting State Functions:
 void setGameMode(int mode);  //gets a mode value, 1 or 2, sets the game mode (a global variable) 
-void setDifficulty(char* difficulty);
+void setDifficulty(int diff);
 void setUserColor(char* color);
 int loadGame(char* path);
 void clearBoard();
 void setNextPlayer(char* n_player);
 void removePiece(struct Position pos);
-void setPiece(struct Position pos, char* piece);
-void PrintBoard();
-void quit();
-void start();
+void setPiece(struct Position pos, char piece);
+int checkBoard();
+int checkKing();
+void incPieceCount(char piece);
+void decPieceCount(char piece);
 char* findSubstring(char* line, char* opt1, char* opt2);
 char* findDifficulty(char* line, char* opt1, char* opt2, char* opt3, char* opt4, char* opt5);
 
 //Game State Functions:
+void MovePieceOnBoard(int x, int y, int i, int j, char* promotion);
+void GetMoves(int x, int y);
+void GetBestMoves(int depth);
+void GetScore(int depth, char* move);
 void SaveToFile(char* fileName);
+
+
 
 // GUI Functions:
 void DrawGraficalUserInterface();
+void drawBoard(SDL_Surface *screen);
+char* getPieceBitmapFromBoard(char piece);
 
 struct Position{
 	int x;

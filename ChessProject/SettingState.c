@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "Chess.h"
 #include <windows.h>
+// This C file contains the functions that will be used in the setting state
+
 
 int game_mode=1;
 int difficulty = 1;
@@ -93,7 +95,7 @@ int loadGame(char* fileName)
 		//do nothing . just skipping a line
 	}
 	// reading lines 8 to 1
-	char* piece;
+	char piece;
 	for (int i = 7; i >= 0; i--){ // going through all lines in board
 		while (fgetc(file) != '>'){ 
 			//do nothing . skipping characters until getting to the pieces representation
@@ -218,7 +220,7 @@ int checkBoard(){
 	return 0;
 }
 
-int incPieceCount(char piece){
+void incPieceCount(char piece){
 	switch (piece){
 	case W_PAWN:
 		w_pawn++;
@@ -247,7 +249,7 @@ int incPieceCount(char piece){
 	}
 }
 
-int decPieceCount(char piece){
+void decPieceCount(char piece){
 	switch (piece){
 	case W_PAWN:
 		w_pawn--;

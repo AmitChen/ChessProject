@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include "Chess.h"
+// This C file contains the functions that will be used in the game state
+
+
 
 void MovePieceOnBoard(int x, int y, int i , int j, char* promotion)
 {  //Move <x,y> to <i,j> x
@@ -11,9 +14,13 @@ void MovePieceOnBoard(int x, int y, int i , int j, char* promotion)
 	pos.y = y - (int)('1'); // 'translate' 1-8 to 0-7
 
 	if (pos.x < 0 || pos.x>7 || pos.y < 0 || pos.y>7 ){
-		//TODO: if gui mode send to chess_gui to print a message, else send to chess_commandLine to print a message.
+		if (console_or_gui == 0)
+			printInvalidPos();
+		else // gui mode
+			//TODO open a window/popup in chess_gui that says the position is invalid
 		return;
 	}
+	//TODO move piece if the move is valid
 
 }
 

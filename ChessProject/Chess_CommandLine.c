@@ -31,7 +31,7 @@ void SettingsState(){
 
 		if (!strcmp(words[0], "game_mode")){
 
-			char* mode = EMPTY;
+			char* mode=NULL;
 
 			if (!strcmp(words[1], "1")) //if user typed 1 for mode 
 			{
@@ -47,8 +47,8 @@ void SettingsState(){
 			{
 				print_message("Wrong game mode\n");
 			}
-
-			print_message("Running game in %d mode\n", mode);
+			if (mode!=NULL)
+				printf("Running game in %d mode\n", mode);
 		}
 #pragma endregion game_mode
 
@@ -67,13 +67,13 @@ void SettingsState(){
 				}
 				else if (!strcmp(words[1], "depth"))
 				{
-					if (((int)strtof(words[2])>4) || ((int)strtof(words[2])<1)) //if depth isn't between 1 to 4
+					if (((int)atoi(words[2])>4) || ((int)atoi(words[2])<1)) //if depth isn't between 1 to 4
 					{
 						print_message("Wrong value for minimax depth. The value should be between 1 to 4\n");
 					}
 					else
 					{
-						setDifficulty((int)strtof(words[2]));
+						setDifficulty((int)atoi(words[2]));
 					}
 				}
 
@@ -279,6 +279,9 @@ void print_board(char some_board[BOARD_SIZE][BOARD_SIZE])
 	}
 	printf("\n");
 }
+void printInvalidPos(){
+	printf(WRONG_POSITION);
+}
 
 void print_line(){
 	int i;
@@ -319,6 +322,7 @@ void getInput(){ // we get the input line from the user and return it as a 5 siz
 	}
 	words[k][j - 2] = '\0';   //at the end append null character to mark end of string
 }
+
 
 
  
