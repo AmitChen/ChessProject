@@ -37,6 +37,19 @@ extern char* user_color;
 #define BOARD_SIZE 8
 char extern board[BOARD_SIZE][BOARD_SIZE];
 
+int extern w_pawn;
+int extern w_bishop;
+int extern w_rook;
+int extern w_knight;
+int extern w_queen;
+int extern w_king;
+int extern b_pawn;
+int extern b_bishop;
+int extern b_rook;
+int extern b_knight;
+int extern b_queen;
+int extern b_king;
+
 void SettingsState();
 void getInput();
 

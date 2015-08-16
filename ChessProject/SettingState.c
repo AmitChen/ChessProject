@@ -11,6 +11,19 @@ char* next_player = "white";
 char* user_color = "white"; 
 #define XML_ERROR "Error reading xml file"
 #define MAX_LINE 100
+//initialize counters for pieces on borad
+int w_pawn=0;
+int w_bishop=0;
+int w_rook=0;
+int w_knight=0;
+int w_queen=0;
+int w_king=0;
+int b_pawn=0;
+int b_bishop=0;
+int b_rook=0;
+int b_knight=0;
+int b_queen=0;
+int b_king=0;
 
 
 void setGameMode(int mode)
@@ -32,8 +45,8 @@ void setUserColor(char* color)
 }
 
 //loads from an xml file and sets the game data.
-//returns 1 if file exists and format is correct
-// returns 0 if file doesn't exists or format is incurrect
+//returns 1 if file exists
+// returns 0 if file doesn't exists
 int loadGame(char* fileName)
 {
 	FILE *file = fopen(fileName, "r");
@@ -82,7 +95,6 @@ int loadGame(char* fileName)
 	// reading lines 8 to 1
 	char* piece;
 	for (int i = 7; i >= 0; i--){ // going through all lines in board
-	//	fgets(line, MAX_LINE, file);
 		while (fgetc(file) != '>'){ 
 			//do nothing . skipping characters until getting to the pieces representation
 		}
@@ -97,7 +109,6 @@ int loadGame(char* fileName)
 			//do nothing .
 		}
 	}
-	//printf("next turn:%s\ngame mode:%d\ndifficulty:%d\nuser color:%s\n",next_player,game_mode,difficulty,user_color); // test
 	return 1;
 }
 char* findSubstring(char* line,char* opt1, char* opt2){
@@ -110,7 +121,6 @@ char* findSubstring(char* line,char* opt1, char* opt2){
 		}
 		else{
 			return NULL;
-			//TODO EXIT
 		}
 	}
 	return NULL;
@@ -154,6 +164,18 @@ void clearBoard()
 			board[i][j] = EMPTY;
 		}
 	}
+	w_pawn = 0;
+	w_bishop = 0;
+	w_rook = 0;
+	w_knight = 0;
+	w_queen = 0;
+	w_king = 0;
+	b_pawn = 0;
+	b_bishop = 0;
+	b_rook = 0;
+	b_knight = 0;
+	b_queen = 0;
+	b_king = 0;
 }
 
 //which player plays first
@@ -163,29 +185,93 @@ void setNextPlayer(char* n_player){
 
 //removes a piece from the board
 void removePiece(struct Position pos){
-
-	board[pos.x][pos.y] = EMPTY;
+	char piece = board[pos.x][pos.y];
+	if (piece != EMPTY){
+		decPieceCount(piece);
+		board[pos.x][pos.y] = EMPTY;
+	}
 }
 
 //sets a piece on the board
 void setPiece(struct Position pos, char piece){
 
-	board[pos.x][pos.y] = piece;
+	incPieceCount(piece);
+	if (checkBoard())
+		board[pos.x][pos.y] = piece;
+	else{
+		printf(WRONG_POSITION);
+		decPieceCount(piece);
+	}
 }
 
-
-//print the board to screen
-void PrintBoard(){
-	print_board(board);
+int checkKing(){
+	if (w_king == 1 && b_king == 1)
+		return 1;
+	return 0; // not enough kings or too many kings ( second part should fail in checkBoard()
 }
 
-//frees all memory and terminates the program
-void quit(){
-	//TODO
+//checkBoard returns 1 if the board is valid, and 0 if the board has too many of a certain piece
+int checkBoard(){
+	if (w_king < 2 && w_queen < 2 && w_rook < 3 && w_knight < 3 && w_bishop < 3 && w_pawn < 9)
+		if (b_king < 2 && b_queen < 2 && b_rook < 3 && b_knight < 3 && b_bishop < 3 && b_pawn < 9)
+			return 1;
+	return 0;
 }
 
-//starts the game 
-void start(){
-	//TODO
+int incPieceCount(char piece){
+	switch (piece){
+	case W_PAWN:
+		w_pawn++;
+	case W_BISHOP:
+		w_bishop++;
+	case W_ROOK:
+		w_rook++;
+	case W_KNIGHT:
+		w_knight++;
+	case W_QUEEN:
+		w_queen++;
+	case W_KING:
+		w_king++;
+	case B_PAWN:
+		b_pawn++;
+	case B_BISHOP:
+		b_bishop++;
+	case B_ROOK:
+		b_rook++;
+	case B_KNIGHT:
+		b_knight++;
+	case B_QUEEN:
+		b_queen++;
+	case B_KING:
+		b_king++;
+	}
 }
 
+int decPieceCount(char piece){
+	switch (piece){
+	case W_PAWN:
+		w_pawn--;
+	case W_BISHOP:
+		w_bishop--;
+	case W_ROOK:
+		w_rook--;
+	case W_KNIGHT:
+		w_knight--;
+	case W_QUEEN:
+		w_queen--;
+	case W_KING:
+		w_king--;
+	case B_PAWN:
+		b_pawn--;
+	case B_BISHOP:
+		b_bishop--;
+	case B_ROOK:
+		b_rook--;
+	case B_KNIGHT:
+		b_knight--;
+	case B_QUEEN:
+		b_queen--;
+	case B_KING:
+		b_king--;
+	}
+}
