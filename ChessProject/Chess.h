@@ -45,6 +45,11 @@ void CommandLine();
 //Command Line Functions:
 void print_board(char some_board[BOARD_SIZE][BOARD_SIZE]);
 void print_line();
+void SettingsState();
+void TransitionState();
+void GameState();
+void CommandLine();
+void getInput();
 
 
 //Setting State Functions:

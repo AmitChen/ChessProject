@@ -8,10 +8,10 @@ int inputLeaks = 0;
 
 void CommandLine()
 {
-	printf("Enter game settings:\n");
+	print_message("Enter game settings:\n");
 	SettingsState();
-	return 0;
 }
+
 void SettingsState(){
 	//free all previous words before getting a new input
 	for (int i = 0; i < 4; i++){
@@ -26,6 +26,7 @@ void SettingsState(){
 
 	while (strcmp(words[0], "quit") && strcmp(words[0], "start"))  //main loop in setting state
 	{
+
 #pragma region game_mode
 
 		if (!strcmp(words[0], "game_mode")){
@@ -98,7 +99,16 @@ void SettingsState(){
 
 #pragma region load
 
-
+		if (!strcmp(words[0], "load")){
+			if (!loadGame(words[1]))
+			{
+				print_message("Wrong file name\n");
+			}
+			else
+			{
+				print_board(board);
+			}
+		}
 
 #pragma endregion load
 
@@ -137,12 +147,16 @@ void SettingsState(){
 
 #pragma region set
 
+		//TODO: check if adding the piece is legal (more than 1 king, more than 2 rooks...)
+		//TODO: check if words[2] is something other than black or white
+		//TODO: call setPiece (from gameState)
+
 		if (!strcmp(words[0], "set")){
 
 			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
-			int y = words[1][3] - (int)('1');
+			int y = words[1][3] - (int)('1');// char y is mapped to a position in the board [0.....7]
 			struct Position pos = { x, y };
-			if (x < 0 || x>7 || y < 0 || y>7){
+			if (x < 0 || x>7 || y < 0 || y>7){ //if x or y are not between 0 to 7
 				print_message(WRONG_POSITION);
 			}
 			else{
@@ -200,13 +214,46 @@ void SettingsState(){
 
 #pragma endregion set
 
+#pragma region print
+
+		if (!strcmp(words[0], "print")){
+			print_board(board);
+		}
+
+#pragma endregion print
+
+
 	} //end main loop of setting state
 
 	if (strcmp(words[0], "quit"))
 	{
-
+		free(words[0]);
+		inputLeaks--;
+		words[0] = NULL;
+		exit(1);
 	}
 	else // "start"
+	{
+		free(words[0]);
+		inputLeaks--;
+		words[0] = NULL;
+		printf("\n");
+		TransitionState();
+	}
+}
+
+void TransitionState(){
+	//TODO: check if one of the kings is missing,if so, print a message and go back to setting state, else, go to game state.
+	//TODO: check tie or lose case (sent to game logic that will have this method)
+}
+
+void GameState()
+{
+	if (game_mode == MODE_2PLAYERS)
+	{
+		printf("%d player - enter your move:\n", next_player);
+	}
+	else
 	{
 
 	}
