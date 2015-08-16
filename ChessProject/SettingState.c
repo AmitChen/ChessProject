@@ -36,7 +36,6 @@ void setUserColor(char* color)
 // returns 0 if file doesn't exists or format is incurrect
 int loadGame(char* fileName)
 {
-	PrintBoard();
 	FILE *file = fopen(fileName, "r");
 	if (file == NULL){
 		printf(XML_ERROR);
@@ -98,6 +97,7 @@ int loadGame(char* fileName)
 			//do nothing .
 		}
 	}
+	//printf("next turn:%s\ngame mode:%d\ndifficulty:%d\nuser color:%s\n",next_player,game_mode,difficulty,user_color); // test
 	return 1;
 }
 char* findSubstring(char* line,char* opt1, char* opt2){
@@ -168,7 +168,7 @@ void removePiece(struct Position pos){
 }
 
 //sets a piece on the board
-void setPiece(struct Position pos, char* piece){
+void setPiece(struct Position pos, char piece){
 
 	board[pos.x][pos.y] = piece;
 }
