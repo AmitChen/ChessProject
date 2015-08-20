@@ -76,6 +76,10 @@ void SettingsState(){
 						setDifficulty((int)atoi(words[2]));
 					}
 				}
+				else
+				{
+					print_message("Wrong value for difficulty.\n");
+				}
 
 			}
 		}
@@ -90,8 +94,15 @@ void SettingsState(){
 				print_message(ILLEGAL_COMMAND);
 			}
 			else
-			{ //TODO: ask if I can assume that user will always put black/white. or illigal value.
-				setUserColor(words[1]);
+			{
+				if (strcmp(words[1], "white") && strcmp(words[1], "black")) // if user typed a wrong color- not black and not white
+				{
+					print_message("Wrong value for user color. The value should be either black or white.\n");
+				}
+				else
+				{
+					setUserColor(words[1]);
+				}
 			}
 		}
 
@@ -123,7 +134,15 @@ void SettingsState(){
 #pragma region next_player
 
 		if (!strcmp(words[0], "next_player")){ //TODO: ask if I can assume that user will always put black/white. or illigal value.
-			setNextPlayer(words[1]);
+
+			if (strcmp(words[1], "white") && strcmp(words[1], "black")) // if user typed a wrong color- not black and not white
+			{
+				print_message("Wrong value for next player. The value should be either black or white.\n");
+			}
+			else
+			{
+				setNextPlayer(words[1]);
+			}
 		}
 
 #pragma endregion next_player
@@ -148,10 +167,8 @@ void SettingsState(){
 #pragma region set
 
 		//TODO: check if adding the piece is legal (more than 1 king, more than 2 rooks...)
-		//TODO: check if words[2] is something other than black or white
-		//TODO: call setPiece (from gameState)
 
-		if (!strcmp(words[0], "set")){
+		if (!strcmp(words[0], "set")){ //if the first word is 'set'
 
 			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
 			int y = words[1][3] - (int)('1');// char y is mapped to a position in the board [0.....7]
@@ -159,56 +176,77 @@ void SettingsState(){
 			if (x < 0 || x>7 || y < 0 || y>7){ //if x or y are not between 0 to 7
 				print_message(WRONG_POSITION);
 			}
-			else{
+			else{ //if the position is valid
+
 				char piece = EMPTY;
-				
-					if (!strcmp(words[3], "king"))
+
+				if (!strcmp(words[3], "king") || !strcmp(words[3], "queen") || !strcmp(words[3], "rook") || !strcmp(words[3], "knight") || !strcmp(words[3], "bishop") || !strcmp(words[3], "pawn"))
+				{
+
+					if (strcmp(words[2], "black") || strcmp(words[2], "white"))
 					{
-						if (!strcmp(words[2], "white"))
-							piece = W_KING;
-						else if (!strcmp(words[2], "black"))
-							piece = B_KING;
+						if (!strcmp(words[3], "king"))
+						{
+							if (!strcmp(words[2], "white"))
+								piece = W_KING;
+							else if (!strcmp(words[2], "black"))
+								piece = B_KING;
+
+						}
+						else if (!strcmp(words[3], "queen"))
+						{
+							if (!strcmp(words[2], "white"))
+								piece = W_QUEEN;
+							else if (!strcmp(words[2], "black"))
+								piece = B_QUEEN;
+						}
+						else if (!strcmp(words[3], "rook"))
+						{
+							if (!strcmp(words[2], "white"))
+								piece = W_ROOK;
+							else if (!strcmp(words[2], "black"))
+								piece = B_ROOK;
+						}
+						else if (!strcmp(words[3], "knight"))
+						{
+							if (!strcmp(words[2], "white"))
+								piece = W_KNIGHT;
+							else if (!strcmp(words[2], "black"))
+								piece = B_KNIGHT;
+						}
+						else if (!strcmp(words[3], "bishop"))
+						{
+							if (!strcmp(words[2], "white"))
+								piece = W_BISHOP;
+							else if (!strcmp(words[2], "black"))
+								piece = B_BISHOP;
+						}
+						else if (!strcmp(words[3], "pawn"))
+						{
+							if (!strcmp(words[2], "white"))
+								piece = W_PAWN;
+							else if (!strcmp(words[2], "black"))
+								piece = B_PAWN;
+						}
+
+						
+						setPiece(pos, piece);
+
 					}
-					else if (!strcmp(words[3], "queen"))
+					else //if third isn't black or white
 					{
-						if (!strcmp(words[2], "white"))
-							piece = W_QUEEN;
-						else if (!strcmp(words[2], "black"))
-							piece = B_QUEEN;
+						print_message("Wrong value for color. The value should be either black or white.\n");
 					}
-					else if (!strcmp(words[3], "rook"))
-					{
-						if (!strcmp(words[2], "white"))
-							piece = W_ROOK;
-						else if (!strcmp(words[2], "black"))
-							piece = B_ROOK;
-					}
-					else if (!strcmp(words[3], "knight"))
-					{
-						if (!strcmp(words[2], "white"))
-							piece = W_KNIGHT;
-						else if (!strcmp(words[2], "black"))
-							piece = B_KNIGHT;
-					}
-					else if (!strcmp(words[3], "bishop"))
-					{
-						if (!strcmp(words[2], "white"))
-							piece = W_BISHOP;
-						else if (!strcmp(words[2], "black"))
-							piece = B_BISHOP;
-					}
-					else if (!strcmp(words[3], "pawn"))
-					{
-						if (!strcmp(words[2], "white"))
-							piece = W_PAWN;
-						else if (!strcmp(words[2], "black"))
-							piece = B_PAWN;
-					}
-					else
-					{
-						print_message(ILLEGAL_COMMAND);
-					}
-				
+
+
+				}
+				else
+				{
+					print_message("Wrong value for piece type. The value should be king, queen, rook, knight, bishop or pawn.\n");
+				}
+
+
+
 			}
 		}
 
@@ -222,6 +260,10 @@ void SettingsState(){
 
 #pragma endregion print
 
+		else
+		{
+			print_message(ILLEGAL_COMMAND);
+		}
 
 	} //end main loop of setting state
 
@@ -279,6 +321,7 @@ void print_board(char some_board[BOARD_SIZE][BOARD_SIZE])
 	}
 	printf("\n");
 }
+
 void printInvalidPos(){
 	printf(WRONG_POSITION);
 }
