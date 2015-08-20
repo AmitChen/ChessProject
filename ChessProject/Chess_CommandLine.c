@@ -285,7 +285,17 @@ void SettingsState(){
 }
 
 void TransitionState(){
-	//TODO: check if one of the kings is missing,if so, print a message and go back to setting state, else, go to game state.
+	//check if one of the kings is missing,if so, print a message and go back to setting state, else, go to game state.
+	if (!checkKing)
+	{
+		print_message("Wrong board initialization\n");
+		SettingsState();
+	}
+	else
+	{
+		GameState();
+	}
+
 	//TODO: check tie or lose case (sent to game logic that will have this method)
 }
 
