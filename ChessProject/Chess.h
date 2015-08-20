@@ -83,6 +83,7 @@ void incPieceCount(char piece);
 void decPieceCount(char piece);
 char* findSubstring(char* line, char* opt1, char* opt2);
 char* findDifficulty(char* line, char* opt1, char* opt2, char* opt3, char* opt4, char* opt5);
+void InitFullBoard();
 
 //Game State Functions:
 void MovePieceOnBoard(int x, int y, int i, int j, char* promotion);
@@ -103,6 +104,13 @@ struct Position{
 	int y;
 };
 
+struct Move{
+	struct Position src;
+	struct Position dst;
+	char* promotion;
+	char board_after_move[BOARD_SIZE][BOARD_SIZE];
+	struct Move* next;
+};
 
 
 #endif

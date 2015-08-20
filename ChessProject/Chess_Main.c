@@ -23,10 +23,10 @@ int main(int argc, char* args[])
 	clearBoard();
 //	loadGame("test.xml");
 //	SaveToFile("test.xml");
-	board[5][7] = W_ROOK;
-	board[2][5] = B_PAWN;
+	InitFullBoard();
+
 	//print_board(board); /// for console
 	DrawGraficalUserInterface(); //
-
+//	Sleep(20000);
 	return 0;
 }

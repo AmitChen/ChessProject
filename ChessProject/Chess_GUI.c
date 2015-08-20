@@ -72,7 +72,10 @@ void DrawGraficalUserInterface()
 				break;
 			case (SDL_MOUSEBUTTONDOWN) :
 				if ((e.button.x > rect_quit.x) && (e.button.x < rect_quit.x + rect_quit.w) && (e.button.y > rect_quit.y) && (e.button.y < rect_quit.y + rect_quit.h))
+				{
 					quit = 1;
+					//TODO terminate and free all resources
+				}
 				break;
 			default:
 				break;
@@ -100,7 +103,7 @@ void drawBoard(SDL_Surface *screen){
 					continue;
 				SDL_Surface *piece = SDL_LoadBMP(pieceBitmap);
 				imgrect.x = 40 + i*IMG_H;
-				imgrect.y = 15 + (7-j)*IMG_W;
+				imgrect.y = 15 + j*IMG_W;
 				if (SDL_BlitSurface(piece, NULL, screen, &imgrect) != 0) {
 					SDL_FreeSurface(piece);
 					printf("ERROR: failed to blit image: %s\n", SDL_GetError());
@@ -130,7 +133,7 @@ char* getPieceBitmapFromBoard(char piece){
 	case W_KING:
 		return "w_king.bmp";
 	case B_PAWN:
-		return "w_pawn.bmp";
+		return "b_pawn.bmp";
 	case B_BISHOP:
 		return "b_bishop.bmp";
 	case B_ROOK:
