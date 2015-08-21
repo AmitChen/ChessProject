@@ -31,10 +31,11 @@
 
 extern char* words[5];
 int extern inputLeaks;
+int extern movesLeaks;
 int extern game_mode;
 int extern console_or_gui;
 int extern difficulty;
-extern char* next_player;
+extern char* next_player;// which player (1st or 2nd ) is playing now
 extern char* user_color;
 #define BOARD_SIZE 8
 char extern board[BOARD_SIZE][BOARD_SIZE];
@@ -99,6 +100,10 @@ void DrawGraficalUserInterface();
 void drawBoard(SDL_Surface *screen);
 char* getPieceBitmapFromBoard(char piece);
 
+
+//Game Logic
+void CopyBoard(char dest[BOARD_SIZE][BOARD_SIZE], char src[BOARD_SIZE][BOARD_SIZE]);
+
 struct Position{
 	int x;
 	int y;
@@ -110,6 +115,12 @@ struct Move{
 	char* promotion;
 	char board_after_move[BOARD_SIZE][BOARD_SIZE];
 	struct Move* next;
+	struct Move* prev;
+};
+
+struct Moves{
+	struct Move* firstMove;
+	struct Move* lastMove;
 };
 
 

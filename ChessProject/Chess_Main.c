@@ -24,9 +24,15 @@ int main(int argc, char* args[])
 //	loadGame("test.xml");
 //	SaveToFile("test.xml");
 	InitFullBoard();
+	//board[0][0] = W_PAWN;
+	//board[7][7] = B_KNIGHT;
+//	board[7][0] = W_QUEEN;
+	//board[0][7] = B_KING;
+	//board[1][1] = W_KING;
 
 	//print_board(board); /// for console
-	DrawGraficalUserInterface(); //
-//	Sleep(20000);
+	
+	DrawGraficalUserInterface(); 
+	//Sleep(2000000);
 	return 0;
 }

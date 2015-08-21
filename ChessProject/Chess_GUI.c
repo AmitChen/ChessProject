@@ -13,10 +13,10 @@ void DrawGraficalUserInterface()
 	SDL_Event e;
 	SDL_Rect rect_quit = { 592, 419, 202, 81 };
 	SDL_Rect imgrect;
-	imgrect.x = 40;
-	imgrect.y = 15;
+	imgrect.x;
+	imgrect.y;
 	SDL_Surface *background = SDL_LoadBMP("Screen.bmp");
-	SDL_Surface *piece = SDL_LoadBMP("piece.bmp");
+	//SDL_Surface *piece = SDL_LoadBMP("piece.bmp");
 	SDL_Surface *screen = SDL_SetVideoMode(WIN_W, WIN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
 	int quit = 0;
 	/* Initialize SDL and make sure it quits*/
@@ -47,15 +47,6 @@ void DrawGraficalUserInterface()
 		printf("ERROR: failed to blit image: %s\n", SDL_GetError());
 		return ;
 	}
-	//if (SDL_BlitSurface(piece, NULL, screen, &imgrect) != 0) {
-	//	SDL_FreeSurface(piece);
-	//	printf("ERROR: failed to blit image: %s\n", SDL_GetError());
-	//	return ;
-	//}
-	//if (SDL_Flip(screen) != 0) {
-	//	printf("ERROR: failed to flip buffer: %s\n", SDL_GetError());
-	//	return ;
-	//}
 
 	while (!quit) {
 		drawBoard(screen);
@@ -93,17 +84,15 @@ void DrawGraficalUserInterface()
 void drawBoard(SDL_Surface *screen){
 	char* pieceBitmap;
 	SDL_Rect imgrect;
-	imgrect.x = 40;
-	imgrect.y = 15;
-		for (int i = 7; i >= 0; i--){
+	for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++)
 			{
 				pieceBitmap = getPieceBitmapFromBoard(board[i][j]);
 				if (!strcmp(pieceBitmap, "empty"))
 					continue;
 				SDL_Surface *piece = SDL_LoadBMP(pieceBitmap);
-				imgrect.x = 40 + i*IMG_H;
-				imgrect.y = 15 + j*IMG_W;
+				imgrect.x = 43 + i*IMG_H;
+				imgrect.y = 503 - j*IMG_W;
 				if (SDL_BlitSurface(piece, NULL, screen, &imgrect) != 0) {
 					SDL_FreeSurface(piece);
 					printf("ERROR: failed to blit image: %s\n", SDL_GetError());

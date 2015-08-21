@@ -200,10 +200,9 @@ void setPiece(struct Position pos, char piece){
 	incPieceCount(piece);
 	if (checkBoard())
 		board[pos.x][pos.y] = piece;
-	else{
-		printf(WRONG_POSITION);
+	else
 		decPieceCount(piece);
-	}
+	
 }
 
 int checkKing(){
@@ -280,24 +279,24 @@ void decPieceCount(char piece){
 
 //initialize the board with the 32 pieces that starts a chess game
 void InitFullBoard(){
-	board[0][0] = B_ROOK;
-	board[1][0] = B_KNIGHT;
-	board[2][0] = B_BISHOP;
-	board[3][0] = B_QUEEN;
-	board[4][0] = B_KING;
-	board[5][0] = B_BISHOP;
-	board[6][0] = B_KNIGHT;
-	board[7][0] = B_ROOK;
+	board[0][0] = W_ROOK;
+	board[1][0] = W_KNIGHT;
+	board[2][0] = W_BISHOP;
+	board[3][0] = W_QUEEN;
+	board[4][0] = W_KING;
+	board[5][0] = W_BISHOP;
+	board[6][0] = W_KNIGHT;
+	board[7][0] = W_ROOK;
 	for (int i = 0; i < 8; i++)
-		board[i][1] = B_PAWN;
-	board[0][7] = W_ROOK;
-	board[1][7] = W_KNIGHT;
-	board[2][7] = W_BISHOP;
-	board[3][7] = W_QUEEN;
-	board[4][7] = W_KING;
-	board[5][7] = W_BISHOP;
-	board[6][7] = W_KNIGHT;
-	board[7][7] = W_ROOK;
+		board[i][1] = W_PAWN;
+	board[0][7] = B_ROOK;
+	board[1][7] = B_KNIGHT;
+	board[2][7] = B_BISHOP;
+	board[3][7] = B_QUEEN;
+	board[4][7] = B_KING;
+	board[5][7] = B_BISHOP;
+	board[6][7] = B_KNIGHT;
+	board[7][7] = B_ROOK;
 	for (int i = 0; i < 8; i++)
-		board[i][6] = W_PAWN;
+		board[i][6] = B_PAWN;
 }
