@@ -27,7 +27,8 @@ int main(int argc, char* args[])
 
 	//print_board(board); /// for console
 	
-	DrawGraficalUserInterface(); 
+	//DrawGraficalUserInterface(); 
+	CommandLine();
 	//Sleep(2000000);
 	return 0;
 }

@@ -48,7 +48,7 @@ void SettingsState(){
 				print_message("Wrong game mode\n");
 			}
 			if (mode!=NULL)
-				printf("Running game in %d mode\n", mode);
+				printf("Running game in %s mode\n", mode);
 		}
 #pragma endregion game_mode
 
@@ -265,6 +265,8 @@ void SettingsState(){
 			print_message(ILLEGAL_COMMAND);
 		}
 
+		getInput();
+
 	} //end main loop of setting state
 
 	if (strcmp(words[0], "quit"))
@@ -304,8 +306,9 @@ void GameState()
 	if (game_mode == MODE_2PLAYERS)
 	{
 		printf("%d player - enter your move:\n", next_player);
+		//change next player??
 	}
-	else
+	else //mode player vs. computer 
 	{
 
 	}
