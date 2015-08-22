@@ -103,6 +103,7 @@ char* getPieceBitmapFromBoard(char piece);
 
 //Game Logic
 void CopyBoard(char dest[BOARD_SIZE][BOARD_SIZE], char src[BOARD_SIZE][BOARD_SIZE]);
+struct Position findKing(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]);
 
 struct Position{
 	int x;
