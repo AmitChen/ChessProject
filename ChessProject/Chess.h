@@ -26,6 +26,7 @@
 #define print_message(message) (printf("%s", message));
 #define ILLEGAL_COMMAND "Illegal command, please try again\n"
 #define WRONG_POSITION "Invalid position on the board\n"
+#define NOT_YOUR_PIECE "The specified position does not contain your piece\n"
 
 
 
@@ -104,6 +105,8 @@ char* getPieceBitmapFromBoard(char piece);
 //Game Logic
 void CopyBoard(char dest[BOARD_SIZE][BOARD_SIZE], char src[BOARD_SIZE][BOARD_SIZE]);
 struct Position findKing(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]);
+int isBlack(char p);
+int isWhite(char p);
 
 struct Position{
 	int x;

@@ -303,15 +303,107 @@ void TransitionState(){
 
 void GameState()
 {
+
 	if (game_mode == MODE_2PLAYERS)
 	{
 		printf("%d player - enter your move:\n", next_player);
-		//change next player??
 	}
 	else //mode player vs. computer 
 	{
-
+		printf("%d player - enter your move:\n", user_color);
 	}
+
+	for (int i = 0; i < 4; i++){
+		if (words[i] != NULL){
+			free(words[i]);
+			inputLeaks--;
+			words[i] = NULL;
+		}
+	}
+	getInput();
+
+	while (strcmp(words[0], "quit"))  //main loop in setting state
+	{
+#pragma region move
+
+		if (!strcmp(words[0], "move")){
+
+			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
+			int y = words[1][3] - (int)('1');// char y is mapped to a position in the board [0.....7]
+
+			int i = (int)(words[3][1] - 'a');// char i is mapped to a position in the board [0.....7]
+			int j = words[3][3] - (int)('1');// char j is mapped to a position in the board [0.....7]
+
+			struct Position src = { x, y };
+			struct Position dest = { i, j };
+
+			if (x < 0 || x>7 || y < 0 || y>7){ //if x or y are not between 0 to 7
+				print_message(WRONG_POSITION);
+			}
+			else if (i < 0 || i>7 || j < 0 || j>7){ //if i or j are not between 0 to 7
+				print_message(WRONG_POSITION);
+			}
+			else if ((game_mode == MODE_PLAYER_VS_AI&&!strcmp(user_color, "black") && !isBlack(board[x][y])) || (game_mode == MODE_2PLAYERS&&!strcmp(next_player, "black") && !isBlack(board[x][y])))
+			{ //if player is black but the piece in <x,y> isn't black
+				printf(NOT_YOUR_PIECE);
+			}
+			else if ((game_mode == MODE_PLAYER_VS_AI&&!strcmp(user_color, "white") && !isWhite(board[x][y])) || (game_mode == MODE_2PLAYERS&&!strcmp(next_player, "white") && !isWhite(board[x][y])))
+			{ //if player is white but the piece in <x,y> isn't white
+				printf(NOT_YOUR_PIECE);
+			}
+		/*	else if () //TODO: Illigal move!!!!
+			{
+			}*/
+			else{ //if the positions are valid
+
+			}
+
+
+		//	MovePieceOnBoard()
+		}
+
+#pragma endregion move
+
+#pragma region get_moves
+
+		else if (!strcmp(words[0], "get_moves")){
+
+		}
+
+#pragma endregion get_moves
+
+#pragma region get_best_moves
+
+		else if (!strcmp(words[0], "get_best_moves")){
+
+		}
+
+#pragma endregion get_best_moves
+
+#pragma region get_score
+
+		else if (!strcmp(words[0], "get_score")){
+
+		}
+
+#pragma endregion get_score
+
+#pragma region save
+
+		else if (!strcmp(words[0], "save")){
+
+		}
+
+#pragma endregion save
+
+		else
+		{
+			print_message(ILLEGAL_COMMAND);
+		}
+
+		getInput();
+	} //end of main loop
+
 }
 
 //prints the board to console
