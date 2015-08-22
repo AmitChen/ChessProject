@@ -15,7 +15,7 @@ void DrawGraficalUserInterface()
 	SDL_Rect imgrect;
 	imgrect.x;
 	imgrect.y;
-	SDL_Surface *background = SDL_LoadBMP("Screen.bmp");
+	SDL_Surface *background = SDL_LoadBMP("GameWindow.bmp");
 	//SDL_Surface *piece = SDL_LoadBMP("piece.bmp");
 	SDL_Surface *screen = SDL_SetVideoMode(WIN_W, WIN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
 	int quit = 0;
