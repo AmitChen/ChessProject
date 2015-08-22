@@ -4,6 +4,7 @@
 #include "Chess.h"
 
 char board[BOARD_SIZE][BOARD_SIZE];
+int moveLeaks = 0;
 int movesLeaks = 0;
 
 
@@ -51,10 +52,9 @@ int Score(char some_board[BOARD_SIZE][BOARD_SIZE], char* color){
 			case B_KING:
 				blackScore += 400;
 			}
-			if (!strcmp(color, "white"))
-				return whiteScore - blackScore;
-			else
-				return blackScore - whiteScore;
+
+			return whiteScore - blackScore;
+
 		}
 	}
 }
@@ -96,8 +96,8 @@ struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOAR
 
 
 struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][BOARD_SIZE], char promotion){
-	struct Move* move = calloc(sizeof(struct Move*), 1);
-	movesLeaks++;
+	struct Move* move = calloc(1,sizeof(struct Move*));
+	moveLeaks++;
 	move->dst.x = i;
 	move->dst.y = j;
 	move->src.x = x;
@@ -107,6 +107,7 @@ struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][
 	move->board_after_move[i][j] = move->board_after_move[x][y];
 	move->board_after_move[x][y] = EMPTY;
 	move->next = NULL;
+	move->prev = NULL;
 	if (promotion != NULL){
 		move->board_after_move[i][j] = promotion;
 	}
@@ -118,6 +119,8 @@ struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][
 
 
 struct Moves* PawnMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
+	struct Moves* moves = calloc(1,sizeof(struct Moves));
+	movesLeaks++;
 	struct Move* move;
 	int isPromoted = 0;
 	if (isWhite(some_board[x][y])){
@@ -126,17 +129,18 @@ struct Moves* PawnMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 			if (isPromoted){
 
 				move = createMove(x, y, x, y + 1, some_board, W_ROOK);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x, y + 1, some_board, W_KNIGHT);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x, y + 1, some_board, W_QUEEN);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x, y + 1, some_board, W_BISHOP);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 			}
-			else
+			else{
 				move = createMove(x, y, x, y + 1, some_board, NULL); // Move with no promotion
-		//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 
 		if (y + 1 <= 7 && x - 1 >= 0 && isBlack(some_board[x-1][y+1])){ // can move  diagonal only if can eat a black piece
 			if (isPromoted){
@@ -228,6 +232,8 @@ struct Moves* PawnMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 }
 
 struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
+	struct Moves* moves = calloc(1, sizeof(struct Moves));
+	movesLeaks++;
 	struct Move* move;
 	int i, j;
 	// check if can eat up-right
@@ -324,6 +330,8 @@ struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE])
 }
 
 struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
+	struct Moves* moves = calloc(1, sizeof(struct Moves));
+	movesLeaks++;
 	struct Move* move;
 	int i, j;
 	// check if can eat up
@@ -415,6 +423,8 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 }
 
 struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
+	struct Moves* moves = calloc(1, sizeof(struct Moves));
+	movesLeaks++;
 	struct Move* move;
 	if (isWhite(some_board[x][y])){ // knight piece is white
 		if (x - 2 >= 0){
@@ -487,12 +497,16 @@ struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE])
 }
 
 struct Moves* QueenMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
+	struct Moves* moves = calloc(1, sizeof(struct Moves));
+	movesLeaks++;
 	struct Moves* rookmoves = RookMoves(x, y, some_board);
 	struct Moves* bishopmoves = BishopMoves(x, y, some_board);
 	//TODO: concat lists of rooksmoves and bishopmoves and return it
 }
 
 struct Moves* KingMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
+	struct Moves* moves = calloc(1, sizeof(struct Moves));
+	movesLeaks++;
 	struct Move* move;
 	if (isWhite(some_board[x][y])){ // white king eats piece ( or moves to an empty spot )
 		if (x + 1 <= 7){
@@ -584,6 +598,26 @@ int isCheck(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]){
 
 }
 
+void addMoveToMovesList(struct Move* move, struct Moves* moves){
+	struct Move* moveToAdd = calloc(1,sizeof(struct Move*));
+	moveLeaks++;
+	CopyMove(moveToAdd,move);
+	if (moves->firstMove == NULL){
+		moves->firstMove = move;
+	}
+	else{
+		moves->lastMove->next = move;
+		moves->lastMove = move;
+	}
+
+}
+
+// we extend moves1 by adding moves2 to it's last node
+void concatMovesLists(struct Moves* moves1, struct Moves* moves2){
+	moves1->lastMove->next = moves2->firstMove;
+	moves1->lastMove = moves2->lastMove;
+}
+
 struct Position findKing(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	struct Position kingpos;
 	for (int i = 0; i < 8; i++){
@@ -601,4 +635,13 @@ struct Position findKing(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]){
 		}
 	}
 
+}
+
+void CopyMove(struct Move* moveDst,struct Move* moveSrc){
+	CopyBoard(moveDst->board_after_move, moveSrc->board_after_move);
+	moveDst->dst = moveSrc->dst;
+	moveDst->src = moveSrc->src;
+	moveDst->prev = moveSrc->prev;
+	moveDst->next = moveSrc->next;
+	moveDst->promotion = moveSrc->promotion;
 }

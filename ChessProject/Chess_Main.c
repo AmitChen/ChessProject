@@ -26,7 +26,16 @@ int main(int argc, char* args[])
 	InitFullBoard();
 
 	//print_board(board); /// for console
-	CommandLine();
+//	CommandLine();
+	struct Moves* m= PawnMoves(0, 1, board);
+	struct Move* temp = m->firstMove;
+	printf("0,1 moes to :\n");
+	while (temp->next != NULL){
+		printf("i: is:");
+		printf(temp->dst.x);
+		printf("\nj: is:");
+		printf(temp->dst.y);
+	}
 //	DrawGraficalUserInterface(); 
 	//Sleep(2000000);
 	return 0;

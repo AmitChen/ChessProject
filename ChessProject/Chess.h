@@ -32,6 +32,7 @@
 
 extern char* words[5];
 int extern inputLeaks;
+int extern moveLeaks;
 int extern movesLeaks;
 int extern game_mode;
 int extern console_or_gui;
@@ -107,6 +108,14 @@ void CopyBoard(char dest[BOARD_SIZE][BOARD_SIZE], char src[BOARD_SIZE][BOARD_SIZ
 struct Position findKing(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]);
 int isBlack(char p);
 int isWhite(char p);
+struct Moves* PawnMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
+struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
+struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
+struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
+struct Moves* QueenMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
+struct Moves* KingMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
+void addMoveToMovesList(struct Move* move, struct Moves* moves);
+void CopyMove(struct Move* moveDst, struct Move* moveSrc);
 
 struct Position{
 	int x;
