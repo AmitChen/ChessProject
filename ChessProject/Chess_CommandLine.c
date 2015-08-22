@@ -48,13 +48,13 @@ void SettingsState(){
 				print_message("Wrong game mode\n");
 			}
 			if (mode!=NULL)
-				printf("Running game in %d mode\n", mode);
+				printf("Running game in %s mode\n", mode);
 		}
 #pragma endregion game_mode
 
 #pragma region difficulty
 
-		if (!strcmp(words[0], "difficulty")){
+		else if (!strcmp(words[0], "difficulty")){
 			if (game_mode != MODE_PLAYER_VS_AI)
 			{
 				print_message(ILLEGAL_COMMAND);
@@ -88,7 +88,7 @@ void SettingsState(){
 
 #pragma region user_color
 
-		if (!strcmp(words[0], "user_color")){
+		else if (!strcmp(words[0], "user_color")){
 			if (game_mode != MODE_PLAYER_VS_AI)
 			{
 				print_message(ILLEGAL_COMMAND);
@@ -110,7 +110,7 @@ void SettingsState(){
 
 #pragma region load
 
-		if (!strcmp(words[0], "load")){
+		else if (!strcmp(words[0], "load")){
 			if (!loadGame(words[1]))
 			{
 				print_message("Wrong file name\n");
@@ -125,7 +125,7 @@ void SettingsState(){
 
 #pragma region clear
 
-		if (!strcmp(words[0], "clear")){
+		else if (!strcmp(words[0], "clear")){
 			clearBoard();
 		}
 
@@ -133,7 +133,7 @@ void SettingsState(){
 
 #pragma region next_player
 
-		if (!strcmp(words[0], "next_player")){ //TODO: ask if I can assume that user will always put black/white. or illigal value.
+		else if (!strcmp(words[0], "next_player")){ //TODO: ask if I can assume that user will always put black/white. or illigal value.
 
 			if (strcmp(words[1], "white") && strcmp(words[1], "black")) // if user typed a wrong color- not black and not white
 			{
@@ -149,7 +149,7 @@ void SettingsState(){
 
 #pragma region remove
 
-		if (!strcmp(words[0], "rm")){
+		else if (!strcmp(words[0], "rm")){
 
 			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
 			int y = words[1][3] - (int)('1');
@@ -168,7 +168,7 @@ void SettingsState(){
 
 		//TODO: check if adding the piece is legal (more than 1 king, more than 2 rooks...)
 
-		if (!strcmp(words[0], "set")){ //if the first word is 'set'
+		else if (!strcmp(words[0], "set")){ //if the first word is 'set'
 
 			int x = (int)(words[1][1] - 'a');// char x is mapped to a position in the board [0.....7]
 			int y = words[1][3] - (int)('1');// char y is mapped to a position in the board [0.....7]
@@ -254,16 +254,18 @@ void SettingsState(){
 
 #pragma region print
 
-		if (!strcmp(words[0], "print")){
+		else if (!strcmp(words[0], "print")){
 			print_board(board);
 		}
 
 #pragma endregion print
 
-		else
+		else // the command is not a legal command
 		{
 			print_message(ILLEGAL_COMMAND);
 		}
+
+		getInput();
 
 	} //end main loop of setting state
 
@@ -304,8 +306,9 @@ void GameState()
 	if (game_mode == MODE_2PLAYERS)
 	{
 		printf("%d player - enter your move:\n", next_player);
+		//change next player??
 	}
-	else
+	else //mode player vs. computer 
 	{
 
 	}

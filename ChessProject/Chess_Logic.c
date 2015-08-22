@@ -66,28 +66,29 @@ struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOAR
 	char pieceToMove = some_board[x][y];
 	switch (pieceToMove){ //TODO
 	case W_PAWN:
-		// list returned by PawnMoves
+		return PawnMoves(x, y, some_board);
 	case W_BISHOP:
-
+		return BishopMoves(x, y, some_board);
 	case W_ROOK:
-
+		return RookMoves(x, y, some_board);
 	case W_KNIGHT:
-
+		return KnightMoves(x, y, some_board);
 	case W_QUEEN:
-
+		return QueenMoves(x, y, some_board);
 	case W_KING:
-
+		return KingMoves(x, y, some_board);
 	case B_PAWN:
-
+		return PawnMoves(x, y, some_board);
 	case B_BISHOP:
-
+		return BishopMoves(x, y, some_board);
 	case B_ROOK:
-
+		return RookMoves(x, y, some_board);
 	case B_KNIGHT:
-
+		return KnightMoves(x, y, some_board);
 	case B_QUEEN:
-
+		return QueenMoves(x, y, some_board);
 	case B_KING:
+		return KingMoves(x, y, some_board);
 		;
 	}
 	return moves;
@@ -109,6 +110,7 @@ struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][
 	if (promotion != NULL){
 		move->board_after_move[i][j] = promotion;
 	}
+	return move;
 }
 
 /////////////////////// The following functions are a "get moves" functions and they return a list of moves for a pieces
@@ -412,7 +414,6 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	}
 }
 
-
 struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	struct Move* move;
 	if (isWhite(some_board[x][y])){ // knight piece is white
@@ -578,6 +579,7 @@ int isWhite(char p){
 //check if king of color 'color' is threatened
 int isCheck(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	struct Position kingpos = findKing(color, some_board);
+	
 	//go through the list getAllMoves of the opposite_color and see if (i,j) equals kingpos.
 
 }
