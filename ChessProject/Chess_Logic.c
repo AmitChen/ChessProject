@@ -96,22 +96,22 @@ struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOAR
 
 
 struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][BOARD_SIZE], char promotion){
-	struct Move* move = calloc(1,sizeof(struct Move*));
+	struct Move* newMove = calloc(1,sizeof(struct Move*));
 	moveLeaks++;
-	move->dst.x = i;
-	move->dst.y = j;
-	move->src.x = x;
-	move->src.y = y;
+	newMove->dst.x = i;
+	newMove->dst.y = j;
+	newMove->src.x = x;
+	newMove->src.y = y;
 
-	CopyBoard(move->board_after_move, some_board);
-	move->board_after_move[i][j] = move->board_after_move[x][y];
-	move->board_after_move[x][y] = EMPTY;
-	move->next = NULL;
-	move->prev = NULL;
+	CopyBoard(newMove->board_after_move, some_board);
+	newMove->board_after_move[i][j] = newMove->board_after_move[x][y];
+	newMove->board_after_move[x][y] = EMPTY;
+	newMove->next = NULL;
+	newMove->prev = NULL;
 	if (promotion != NULL){
-		move->board_after_move[i][j] = promotion;
+		newMove->board_after_move[i][j] = promotion;
 	}
-	return move;
+	return newMove;
 }
 
 /////////////////////// The following functions are a "get moves" functions and they return a list of moves for a pieces
@@ -439,7 +439,7 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	struct Moves* moves = calloc(1, sizeof(struct Moves));
 	movesLeaks++;
-	struct Move* move;
+	struct Move* move = NULL;
 	if (isWhite(some_board[x][y])){ // knight piece is white
 		if (x - 2 >= 0){
 			if (y - 1 >= 0 && (isBlack(some_board[x - 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY)){
@@ -656,6 +656,7 @@ void addMoveToMovesList(struct Move* move, struct Moves* moves){
 	}
 	else{
 		moves->lastMove->next = move;
+		move->prev = moves->lastMove;
 		moves->lastMove = move;
 	}
 
@@ -664,6 +665,7 @@ void addMoveToMovesList(struct Move* move, struct Moves* moves){
 // we extend moves1 by adding moves2 to it's last node
 void concatMovesLists(struct Moves* moves1, struct Moves* moves2){
 	moves1->lastMove->next = moves2->firstMove;
+	moves2->firstMove->prev = moves1->lastMove;
 	moves1->lastMove = moves2->lastMove;
 }
 

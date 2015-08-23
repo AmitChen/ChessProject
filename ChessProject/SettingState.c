@@ -279,6 +279,7 @@ void decPieceCount(char piece){
 
 //initialize the board with the 32 pieces that starts a chess game
 void InitFullBoard(){
+	clearBoard();
 	board[0][0] = W_ROOK;
 	board[1][0] = W_KNIGHT;
 	board[2][0] = W_BISHOP;
@@ -299,4 +300,17 @@ void InitFullBoard(){
 	board[7][7] = B_ROOK;
 	for (int i = 0; i < 8; i++)
 		board[i][6] = B_PAWN;
+	w_rook = 2;
+	w_knight = 2;
+	w_bishop = 2;
+	w_queen = 1;
+	w_king = 1;
+	w_pawn = 8;
+	b_rook = 2;
+	b_knight = 2;
+	b_bishop = 2;
+	b_queen = 1;
+	b_king = 1;
+	b_pawn = 8;
+
 }

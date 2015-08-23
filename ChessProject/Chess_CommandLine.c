@@ -269,7 +269,7 @@ void SettingsState(){
 
 	} //end main loop of setting state
 
-	if (strcmp(words[0], "quit"))
+	if (!strcmp(words[0], "quit"))
 	{
 		free(words[0]);
 		inputLeaks--;
@@ -288,7 +288,7 @@ void SettingsState(){
 
 void TransitionState(){
 	//check if one of the kings is missing,if so, print a message and go back to setting state, else, go to game state.
-	if (!checkKing)
+	if (!checkKing())
 	{
 		print_message("Wrong board initialization\n");
 		SettingsState();
@@ -306,11 +306,11 @@ void GameState()
 
 	if (game_mode == MODE_2PLAYERS)
 	{
-		printf("%d player - enter your move:\n", next_player);
+		printf("%s player - enter your move:\n", next_player);
 	}
 	else //mode player vs. computer 
 	{
-		printf("%d player - enter your move:\n", user_color);
+		printf("%s player - enter your move:\n", user_color);
 	}
 
 	for (int i = 0; i < 4; i++){
@@ -363,26 +363,35 @@ void GameState()
 		}
 
 #pragma endregion move
-
 #pragma region get_moves
 
 		else if (!strcmp(words[0], "get_moves")){
-
-			struct Moves* moves = getMovesForPosition(words[1][1], words[1][3], board);
+			struct Moves* moves = getMovesForPosition((int)(words[1][1] -'a'), words[1][3] -(int)('1'), board);
 			struct Move* temp = moves->firstMove;
-			char x = temp->src.x+'a';
-			int y = temp->src.y + 1;
-			char i = temp->dst.x+'a';
-			int j = temp->dst.y + 1;
-			while (temp != NULL)
-			{
-				printf("move <%c,%d> to <%c,%d>", x, y, i, j);
-				if (temp->promotion != NULL)
-					printf(" %s", temp->promotion);
-				printf("\n");
-				temp = temp->next;
+			if (temp != NULL){
+				char x = temp->src.x + 'a';
+				int y = temp->src.y + 1;
+				char i, j;
+
+				while (temp != NULL)
+				{
+					struct Move* moveToFree;
+					i = temp->dst.x + 'a';
+					j = temp->dst.y + 1;
+					printf("move <%c,%d> to <%c,%d>", x, y, i, j);
+					if (temp->promotion != NULL)
+						printf(" %s", temp->promotion);
+					printf("\n");
+					moveToFree = temp;
+					temp = temp->next;
+					free(moveToFree);
+					moveLeaks--;
+
+				}
 			}
 		}
+
+#pragma endregion get_moves
 
 #pragma region get_best_moves
 
