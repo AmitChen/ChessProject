@@ -116,6 +116,8 @@ struct Moves* QueenMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
 struct Moves* KingMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
 void addMoveToMovesList(struct Move* move, struct Moves* moves);
 void CopyMove(struct Move* moveDst, struct Move* moveSrc);
+void concatMovesLists(struct Moves* moves1, struct Moves* moves2);
+struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
 
 struct Position{
 	int x;

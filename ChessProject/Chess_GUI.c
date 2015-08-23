@@ -68,6 +68,11 @@ void DrawGraficalUserInterface()
 					//TODO terminate and free all resources
 				}
 				break;
+			case (SDL_MOUSEMOTION):
+				if ((e.button.x > rect_quit.x) && (e.button.x < rect_quit.x + rect_quit.w) && (e.button.y > rect_quit.y) && (e.button.y < rect_quit.y + rect_quit.h))
+				{
+					SDL_SetCursor(NULL);
+				}
 			default:
 				break;
 			}

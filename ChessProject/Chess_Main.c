@@ -27,16 +27,19 @@ int main(int argc, char* args[])
 
 	//print_board(board); /// for console
 //	CommandLine();
-	struct Moves* m= PawnMoves(0, 1, board);
+	int x = 3, y = 4;
+	board[x][y] = W_PAWN;
+	board[x + 1][y + 1] = B_KNIGHT;
+	board[x - 1][y + 1] = B_QUEEN;
+	print_board(board);
+	struct Moves* m= PawnMoves(x, y, board);
 	struct Move* temp = m->firstMove;
-	printf("0,1 moes to :\n");
-	while (temp->next != NULL){
-		printf("i: is:");
-		printf(temp->dst.x);
-		printf("\nj: is:");
-		printf(temp->dst.y);
+	printf("<%d,%d> moves to :\n",x,y);
+	while (temp != NULL){
+		printf("<%d,%d>   ", temp->dst.x, temp->dst.y);
+		temp = temp->next;
 	}
 //	DrawGraficalUserInterface(); 
 	//Sleep(2000000);
-	return 0;
+		return 0;
 }

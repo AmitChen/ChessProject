@@ -115,7 +115,6 @@ struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][
 }
 
 /////////////////////// The following functions are a "get moves" functions and they return a list of moves for a pieces
-/////////////////////// TODO: add a function that creates a list and adds a move to it and replace all "//Add move to list" with it
 
 
 struct Moves* PawnMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
@@ -146,34 +145,36 @@ struct Moves* PawnMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 			if (isPromoted){
 
 				move = createMove(x, y, x - 1, y + 1, some_board, W_ROOK);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x - 1, y + 1, some_board, W_KNIGHT);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x - 1, y + 1, some_board, W_QUEEN);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x - 1, y + 1, some_board, W_BISHOP);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 			}
-			else
+			else{
 				move = createMove(x, y, x - 1, y + 1, some_board, NULL); // Move with no promotion
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 
 		if (y + 1 <= 7 && x + 1 <= 7 && isBlack(some_board[x+1][y+1])){
 			if (isPromoted){
 
 				move = createMove(x, y, x + 1, y + 1, some_board, W_ROOK);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x + 1, y + 1, some_board, W_KNIGHT);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x + 1, y + 1, some_board, W_QUEEN);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x + 1, y + 1, some_board, W_BISHOP);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 			}
-			else
+			else{
 				move = createMove(x, y, x + 1, y + 1, some_board, NULL); // Move with no promotion
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 	}
 	else{ // color is black
@@ -182,53 +183,56 @@ struct Moves* PawnMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 			if (isPromoted){
 
 				move = createMove(x, y, x, y - 1, some_board, W_ROOK);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x, y - 1, some_board, W_KNIGHT);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x, y - 1, some_board, W_QUEEN);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x, y - 1, some_board, W_BISHOP);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 			}
-			else
+			else{
 				move = createMove(x, y, x, y - 1, some_board, NULL); // Move with no promotion
-		//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 
 		if (y - 1 >=0 && x - 1 >= 0 && isWhite(some_board[x - 1][y - 1])){ // can move  diagonal only if can eat a black piece
 			if (isPromoted){
 
 				move = createMove(x, y, x - 1, y - 1, some_board, W_ROOK);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x - 1, y - 1, some_board, W_KNIGHT);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x - 1, y - 1, some_board, W_QUEEN);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x - 1, y - 1, some_board, W_BISHOP);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 			}
-			else
+			else{
 				move = createMove(x, y, x - 1, y - 1, some_board, NULL); // Move with no promotion
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 
 		if (y - 1 >= 0 && x + 1 <= 7 && isWhite(some_board[x + 1][y - 1])){
 			if (isPromoted){
 
 				move = createMove(x, y, x + 1, y - 1, some_board, W_ROOK);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x + 1, y - 1, some_board, W_KNIGHT);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x + 1, y - 1, some_board, W_QUEEN);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 				move = createMove(x, y, x + 1, y - 1, some_board, W_BISHOP);
-				//Add move to list
+				addMoveToMovesList(move, moves);
 			}
-			else
+			else{
 				move = createMove(x, y, x + 1, y - 1, some_board, NULL); // Move with no promotion
-				//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
-		struct Move* move;
 	}
+	return moves;
 }
 
 struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
@@ -242,20 +246,21 @@ struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE])
 	while (i <= 7 && j <= 7){
 		if (some_board[i][j] != EMPTY)
 			break;
-				else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-			//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		i++;
 		j++;
 	}
 	if (isWhite(some_board[x][y]) && i<=7 && j<=7 && isBlack(some_board[i][j])){ // white Bishop eats black piece
 		move = createMove(x, y, i, j, some_board, NULL); 
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && i <= 7 && j <= 7 && isWhite(some_board[i][j])){ // black bishop eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
 	// check if can eat up-left
@@ -264,20 +269,21 @@ struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE])
 	while (i >=0 && j <= 7){
 		if (some_board[i][j] != EMPTY)
 			break;
-		else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-			//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		i--;
 		j++;
 	}
 	if (isWhite(some_board[x][y]) && i >=0 && j <= 7 && isBlack(some_board[i][j])){ // white Bishop eats black piece
 		move = createMove(x, y, i,j, some_board, NULL); 
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && i >= 0 && j <= 7 && isWhite(some_board[i][j])){ // black bishop eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
 
@@ -287,20 +293,21 @@ struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE])
 	while (i >=0 && j >=0){
 		if (some_board[i][j] != EMPTY)
 			break;
-		else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-		//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		i--;
 		j--;
 	}
 	if (isWhite(some_board[x][y]) && i >= 0 && j >= 0 && isBlack(some_board[i][j])){ // white Bishop eats black piece
 		move = createMove(x, y, i, j, some_board, NULL); 
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && i >= 0 && j >= 0 && isWhite(some_board[i][j])){ // black bishop eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
 
@@ -310,22 +317,24 @@ struct Moves* BishopMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE])
 	while (i <= 7 && j >=0){
 		if (some_board[i][j] != EMPTY)
 			break;
-		else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-		//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		i++;
 		j--;
 	}
 	if (isWhite(some_board[x][y]) && i <= 7 && j >= 0 && isBlack(some_board[i][j])){ // white Bishop eats black piece
 		move = createMove(x, y, i,j, some_board, NULL);
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && i <= 7 && j >= 0 && isWhite(some_board[i][j])){ // black bishop eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
+	return moves;
 
 }
 
@@ -340,19 +349,20 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	while (j <= 7){
 		if (some_board[i][j] != EMPTY)
 			break;
-		else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-			//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		j++;
 	}
 	if (isWhite(some_board[x][y]) &&  j <= 7 && isBlack(some_board[i][j])){ // white rook eats black piece
 		move = createMove(x, y, i, j, some_board, NULL);
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && j <= 7 && isWhite(some_board[i][j])){ // black rook eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
 	// check if can eat right
@@ -361,19 +371,20 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	while (i<=7){
 		if (some_board[i][j] != EMPTY)
 			break;
-		else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-		//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		i++;
 	}
 	if (isWhite(some_board[x][y]) && i <= 7&& isBlack(some_board[i][j])){ // white rook eats black piece
 		move = createMove(x, y, i, j, some_board, NULL);
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && i <= 7 && isWhite(some_board[i][j])){ // black rook eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
 
@@ -383,19 +394,20 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	while (j >= 0){
 		if (some_board[i][j] != EMPTY)
 			break;
-		else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-		//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		j--;
 	}
 	if (isWhite(some_board[x][y]) && j >= 0 && isBlack(some_board[i][j])){ // white rook eats black piece
 		move = createMove(x, y, i, j, some_board, NULL);
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && j >= 0 && isWhite(some_board[i][j])){ // black rook eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
 
@@ -405,21 +417,23 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	while (i >=0 ){
 		if (some_board[i][j] != EMPTY)
 			break;
-		else
+		else{
 			move = createMove(x, y, i, j, some_board, NULL);  // add step to an empty spot on board
-		//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		i--;
 	}
 	if (isWhite(some_board[x][y]) && i >= 0 && isBlack(some_board[i][j])){ // white Bishop eats black piece
 		move = createMove(x, y, i, j, some_board, NULL);
-		//Add move to list
+		addMoveToMovesList(move, moves);
 	}
 	else{
 		if (isBlack(some_board[x][y]) && i >= 0 && isWhite(some_board[i][j])){ // black bishop eats white piece
 			move = createMove(x, y, i, j, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
 		}
 	}
+	return moves;
 }
 
 struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
@@ -428,72 +442,89 @@ struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE])
 	struct Move* move;
 	if (isWhite(some_board[x][y])){ // knight piece is white
 		if (x - 2 >= 0){
-			if (y - 1 >= 0 && (isBlack(some_board[x - 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY))
+			if (y - 1 >= 0 && (isBlack(some_board[x - 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY)){
 				move = createMove(x, y, x - 2, y - 1, some_board, NULL);
-				//Add move to list
-			if (y + 1 <= 7 && (isBlack(some_board[x - 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y + 1 <= 7 && (isBlack(some_board[x - 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY)){
 				move = createMove(x, y, x - 2, y + 1, some_board, NULL);
-				//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 		if (x +2 <= 7){
-			if (y - 1 >= 0 && (isBlack(some_board[x + 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY))
+			if (y - 1 >= 0 && (isBlack(some_board[x + 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY)){
 				move = createMove(x, y, x + 2, y - 1, some_board, NULL);
-				//Add move to list
-			if (y + 1 <= 7 && (isBlack(some_board[x + 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y + 1 <= 7 && (isBlack(some_board[x + 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY)){
 				move = createMove(x, y, x + 2, y + 1, some_board, NULL);
-				//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 		if (y + 2 <= 7){
-			if (x - 1 >= 0 && (isBlack(some_board[x - 1][y + 2]) || some_board[x - 1][y +2] == EMPTY))
-				move = createMove(x, y, x-1, y +2, some_board, NULL);
-				//Add move to list
-			if (x + 1 <= 7 && (isBlack(some_board[x +1][y + 2]) || some_board[x + 1][y + 2] == EMPTY))
-				move = createMove(x, y, x +1, y + 2, some_board, NULL);
-				//Add move to list
+			if (x - 1 >= 0 && (isBlack(some_board[x - 1][y + 2]) || some_board[x - 1][y + 2] == EMPTY)){
+				move = createMove(x, y, x - 1, y + 2, some_board, NULL);
+				addMoveToMovesList(move, moves);
+			}
+			if (x + 1 <= 7 && (isBlack(some_board[x + 1][y + 2]) || some_board[x + 1][y + 2] == EMPTY)){
+				move = createMove(x, y, x + 1, y + 2, some_board, NULL);
+				addMoveToMovesList(move, moves);
+			}
 		}
 		if (y - 2 >=0){
-			if (x - 1 >= 0 && (isBlack(some_board[x - 1][y - 2]) || some_board[x - 1][y - 2] == EMPTY))
+			if (x - 1 >= 0 && (isBlack(some_board[x - 1][y - 2]) || some_board[x - 1][y - 2] == EMPTY)){
 				move = createMove(x, y, x - 1, y - 2, some_board, NULL);
-				//Add move to list
-			if (x + 1 <= 7 && (isBlack(some_board[x + 1][y - 2]) || some_board[x + 1][y - 2] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (x + 1 <= 7 && (isBlack(some_board[x + 1][y - 2]) || some_board[x + 1][y - 2] == EMPTY)){
 				move = createMove(x, y, x + 1, y - 2, some_board, NULL);
-				//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 	}
 	else{ // knight piece is black
 		if (x - 2 >= 0){
-			if (y - 1 >= 0 && (isWhite(some_board[x - 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY))
+			if (y - 1 >= 0 && (isWhite(some_board[x - 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY)){
 				move = createMove(x, y, x - 2, y - 1, some_board, NULL);
-			//Add move to list
-			if (y + 1 <= 7 && (isWhite(some_board[x - 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y + 1 <= 7 && (isWhite(some_board[x - 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY)){
 				move = createMove(x, y, x - 2, y + 1, some_board, NULL);
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 		if (x + 2 <= 7){
-			if (y - 1 >= 0 && (isWhite(some_board[x + 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY))
+			if (y - 1 >= 0 && (isWhite(some_board[x + 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY)){
 				move = createMove(x, y, x + 2, y - 1, some_board, NULL);
-			//Add move to list
-			if (y + 1 <= 7 && (isWhite(some_board[x + 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y + 1 <= 7 && (isWhite(some_board[x + 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY)){
 				move = createMove(x, y, x + 2, y + 1, some_board, NULL);
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 		if (y + 2 <= 7){
-			if (x - 1 >= 0 && (isWhite(some_board[x - 1][y + 2]) || some_board[x - 1][y + 2] == EMPTY))
+			if (x - 1 >= 0 && (isWhite(some_board[x - 1][y + 2]) || some_board[x - 1][y + 2] == EMPTY)){
 				move = createMove(x, y, x - 1, y + 2, some_board, NULL);
-			//Add move to list
-			if (x + 1 <= 7 && (isWhite(some_board[x + 1][y + 2]) || some_board[x + 1][y + 2] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (x + 1 <= 7 && (isWhite(some_board[x + 1][y + 2]) || some_board[x + 1][y + 2] == EMPTY)){
 				move = createMove(x, y, x + 1, y + 2, some_board, NULL);
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 		if (y - 2 >= 0){
-			if (x - 1 >= 0 && (isWhite(some_board[x - 1][y - 2]) || some_board[x - 1][y - 2] == EMPTY))
+			if (x - 1 >= 0 && (isWhite(some_board[x - 1][y - 2]) || some_board[x - 1][y - 2] == EMPTY)){
 				move = createMove(x, y, x - 1, y - 2, some_board, NULL);
-				//Add move to list
-			if (x + 1 <= 7 && (isWhite(some_board[x + 1][y - 2]) || some_board[x + 1][y - 2] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (x + 1 <= 7 && (isWhite(some_board[x + 1][y - 2]) || some_board[x + 1][y - 2] == EMPTY)){
 				move = createMove(x, y, x + 1, y - 2, some_board, NULL);
-				//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 	}
+	return moves;
 }
 
 struct Moves* QueenMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
@@ -501,7 +532,8 @@ struct Moves* QueenMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	movesLeaks++;
 	struct Moves* rookmoves = RookMoves(x, y, some_board);
 	struct Moves* bishopmoves = BishopMoves(x, y, some_board);
-	//TODO: concat lists of rooksmoves and bishopmoves and return it
+	concatMovesLists(rookmoves, bishopmoves);
+	return rookmoves;
 }
 
 struct Moves* KingMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
@@ -510,65 +542,81 @@ struct Moves* KingMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	struct Move* move;
 	if (isWhite(some_board[x][y])){ // white king eats piece ( or moves to an empty spot )
 		if (x + 1 <= 7){
-			if (y + 1 <= 7 && (isBlack(some_board[x + 1][y + 1]) || some_board[x + 1][y + 1]==EMPTY))
-				move = createMove(x, y, x + 1, y +1, some_board, NULL);
-				//Add move to list
-			if (isBlack(some_board[x + 1][y]) || some_board[x + 1][y] == EMPTY)
+			if (y + 1 <= 7 && (isBlack(some_board[x + 1][y + 1]) || some_board[x + 1][y + 1] == EMPTY)){
+				move = createMove(x, y, x + 1, y + 1, some_board, NULL);
+				addMoveToMovesList(move, moves);
+			}
+			if (isBlack(some_board[x + 1][y]) || some_board[x + 1][y] == EMPTY){
 				move = createMove(x, y, x + 1, y, some_board, NULL);
-				//Add move to list
-			if (y - 1 >= 0 && (isBlack(some_board[x + 1][y - 1]) || some_board[x + 1][y - 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y - 1 >= 0 && (isBlack(some_board[x + 1][y - 1]) || some_board[x + 1][y - 1] == EMPTY)){
 				move = createMove(x, y, x + 1, y - 1, some_board, NULL);
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
-		if (y - 1 >= 0 && (isBlack(some_board[x][y - 1]) || some_board[x][y - 1] == EMPTY))
+		if (y - 1 >= 0 && (isBlack(some_board[x][y - 1]) || some_board[x][y - 1] == EMPTY)){
 			move = createMove(x, y, x, y - 1, some_board, NULL);
-			//Add move to list
-		if (y + 1 <=7 && (isBlack(some_board[x][y + 1]) || some_board[x][y + 1] == EMPTY))
+			addMoveToMovesList(move, moves);
+		}
+		if (y + 1 <= 7 && (isBlack(some_board[x][y + 1]) || some_board[x][y + 1] == EMPTY)){
 			move = createMove(x, y, x, y + 1, some_board, NULL);
-			//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		if (x - 1 >= 0){
-			if (y + 1 <= 7 && (isBlack(some_board[x - 1][y + 1]) || some_board[x - 1][y + 1] == EMPTY))
+			if (y + 1 <= 7 && (isBlack(some_board[x - 1][y + 1]) || some_board[x - 1][y + 1] == EMPTY)){
 				move = createMove(x, y, x - 1, y + 1, some_board, NULL);
-				//Add move to list
-			if (isBlack(some_board[x - 1][y]) || some_board[x - 1][y] == EMPTY)
+				addMoveToMovesList(move, moves);
+			}
+			if (isBlack(some_board[x - 1][y]) || some_board[x - 1][y] == EMPTY){
 				move = createMove(x, y, x - 1, y, some_board, NULL);
-				//Add move to list
-			if (y - 1 >= 0 && (isBlack(some_board[x - 1][y - 1]) || some_board[x - 1][y - 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y - 1 >= 0 && (isBlack(some_board[x - 1][y - 1]) || some_board[x - 1][y - 1] == EMPTY)){
 				move = createMove(x, y, x - 1, y - 1, some_board, NULL);
-				//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 	}
 	else{ // black king eats piece ( or moves to an empty spot )
 		if (x + 1 <= 7){
-			if (y + 1 <= 7 && (isWhite(some_board[x + 1][y + 1]) || some_board[x + 1][y + 1] == EMPTY))
+			if (y + 1 <= 7 && (isWhite(some_board[x + 1][y + 1]) || some_board[x + 1][y + 1] == EMPTY)){
 				move = createMove(x, y, x + 1, y + 1, some_board, NULL);
-			//Add move to list
-			if (isWhite(some_board[x + 1][y]) || some_board[x + 1][y] == EMPTY)
+				addMoveToMovesList(move, moves);
+			}
+			if (isWhite(some_board[x + 1][y]) || some_board[x + 1][y] == EMPTY){
 				move = createMove(x, y, x + 1, y, some_board, NULL);
-			//Add move to list
-			if (y - 1 >= 0 && (isWhite(some_board[x + 1][y - 1]) || some_board[x + 1][y - 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y - 1 >= 0 && (isWhite(some_board[x + 1][y - 1]) || some_board[x + 1][y - 1] == EMPTY)){
 				move = createMove(x, y, x + 1, y - 1, some_board, NULL);
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
-		if (y - 1 >= 0 && (isWhite(some_board[x][y - 1]) || some_board[x][y - 1] == EMPTY))
+		if (y - 1 >= 0 && (isWhite(some_board[x][y - 1]) || some_board[x][y - 1] == EMPTY)){
 			move = createMove(x, y, x, y - 1, some_board, NULL);
-		//Add move to list
-		if (y + 1 <= 7 && (isWhite(some_board[x][y + 1]) || some_board[x][y + 1] == EMPTY))
+			addMoveToMovesList(move, moves);
+		}
+		if (y + 1 <= 7 && (isWhite(some_board[x][y + 1]) || some_board[x][y + 1] == EMPTY)){
 			move = createMove(x, y, x, y + 1, some_board, NULL);
-		//Add move to list
+			addMoveToMovesList(move, moves);
+		}
 		if (x - 1 >= 0){
-			if (y + 1 <= 7 && (isWhite(some_board[x - 1][y + 1]) || some_board[x - 1][y + 1] == EMPTY))
+			if (y + 1 <= 7 && (isWhite(some_board[x - 1][y + 1]) || some_board[x - 1][y + 1] == EMPTY)){
 				move = createMove(x, y, x - 1, y + 1, some_board, NULL);
-			//Add move to list
-			if (isWhite(some_board[x - 1][y]) || some_board[x - 1][y] == EMPTY)
+				addMoveToMovesList(move, moves);
+			}
+			if (isWhite(some_board[x - 1][y]) || some_board[x - 1][y] == EMPTY){
 				move = createMove(x, y, x - 1, y, some_board, NULL);
-			//Add move to list
-			if (y - 1 >= 0 && (isWhite(some_board[x - 1][y - 1]) || some_board[x - 1][y - 1] == EMPTY))
+				addMoveToMovesList(move, moves);
+			}
+			if (y - 1 >= 0 && (isWhite(some_board[x - 1][y - 1]) || some_board[x - 1][y - 1] == EMPTY)){
 				move = createMove(x, y, x - 1, y - 1, some_board, NULL);
-			//Add move to list
+				addMoveToMovesList(move, moves);
+			}
 		}
 	}
-
+	return moves;
 }
 
 
@@ -602,8 +650,9 @@ void addMoveToMovesList(struct Move* move, struct Moves* moves){
 	struct Move* moveToAdd = calloc(1,sizeof(struct Move*));
 	moveLeaks++;
 	CopyMove(moveToAdd,move);
-	if (moves->firstMove == NULL){
+	if (moves->firstMove == NULL){ // list is empty
 		moves->firstMove = move;
+		moves->lastMove = move;
 	}
 	else{
 		moves->lastMove->next = move;
