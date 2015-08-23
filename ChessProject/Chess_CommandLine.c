@@ -368,9 +368,21 @@ void GameState()
 
 		else if (!strcmp(words[0], "get_moves")){
 
+			struct Moves* moves = getMovesForPosition(words[1][1], words[1][3], board);
+			struct Move* temp = moves->firstMove;
+			char x = temp->src.x+'a';
+			int y = temp->src.y + 1;
+			char i = temp->dst.x+'a';
+			int j = temp->dst.y + 1;
+			while (temp != NULL)
+			{
+				printf("move <%c,%d> to <%c,%d>", x, y, i, j);
+				if (temp->promotion != NULL)
+					printf(" %s", temp->promotion);
+				printf("\n");
+				temp = temp->next;
+			}
 		}
-
-#pragma endregion get_moves
 
 #pragma region get_best_moves
 
