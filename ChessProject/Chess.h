@@ -94,6 +94,7 @@ void GetMoves(int x, int y);
 void GetBestMoves(int depth);
 void GetScore(int depth, char* move);
 void SaveToFile(char* fileName);
+struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][BOARD_SIZE], char promotion);
 
 
 
@@ -118,6 +119,7 @@ void addMoveToMovesList(struct Move* move, struct Moves* moves);
 void CopyMove(struct Move* moveDst, struct Move* moveSrc);
 void concatMovesLists(struct Moves* moves1, struct Moves* moves2);
 struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]);
+int isPlayingColor(char p);
 
 struct Position{
 	int x;

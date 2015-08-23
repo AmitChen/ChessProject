@@ -26,9 +26,8 @@ int main(int argc, char* args[])
 	InitFullBoard();
 
 	//print_board(board); /// for console
-	int * d = calloc(1,sizeof(int));
-	free(d);
-//	CommandLine();
+
+	CommandLine();
 //	DrawGraficalUserInterface(); 
 	//Sleep(2000000);
 		return 0;

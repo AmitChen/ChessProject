@@ -52,18 +52,19 @@ int Score(char some_board[BOARD_SIZE][BOARD_SIZE], char* color){
 			case B_KING:
 				blackScore += 400;
 			}
-
-			return whiteScore - blackScore;
-
 		}
 	}
+	return whiteScore - blackScore;
 }
 
 //  All the checks are done in Chess_CommandLine.c so (x,y) is a valid non-empty position on board
 //TODO
 struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
+	if (!isPlayingColor(some_board[x][y])){
+		return NULL;
+	}
 	char pieceToMove = some_board[x][y];
-	switch (pieceToMove){ //TODO
+	switch (pieceToMove){ 
 	case W_PAWN:
 		return PawnMoves(x, y, some_board);
 	case W_BISHOP:
@@ -96,7 +97,7 @@ struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOAR
 
 
 struct Move* createMove(int x, int y, int i, int j, char some_board[BOARD_SIZE][BOARD_SIZE], char promotion){
-	struct Move* newMove = calloc(1,sizeof(struct Move*));
+	struct Move* newMove = calloc(1,sizeof(struct Move));
 	moveLeaks++;
 	newMove->dst.x = i;
 	newMove->dst.y = j;
@@ -654,6 +655,10 @@ int isWhite(char p){
 	return (p == W_PAWN || p == W_KNIGHT || p == W_ROOK || p == W_BISHOP || p == W_QUEEN || p == W_KING);
 }
 
+int isPlayingColor(char p){
+	return ((isWhite(p) && !strcmp(next_player, "white")) || (isBlack(p) && !strcmp(next_player, "black")));
+}
+
 //check if king of color 'color' is threatened
 int isCheck(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	struct Position kingpos = findKing(color, some_board);
@@ -663,7 +668,7 @@ int isCheck(char* color, char some_board[BOARD_SIZE][BOARD_SIZE]){
 }
 
 void addMoveToMovesList(struct Move* move, struct Moves* moves){
-	struct Move* moveToAdd = calloc(1,sizeof(struct Move*));
+	struct Move* moveToAdd = calloc(1,sizeof(struct Move));
 	moveLeaks++;
 	CopyMove(moveToAdd,move);
 	if (moves->firstMove == NULL){ // list is empty
