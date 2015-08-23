@@ -367,26 +367,28 @@ void GameState()
 
 		else if (!strcmp(words[0], "get_moves")){
 			struct Moves* moves = getMovesForPosition((int)(words[1][1] -'a'), words[1][3] -(int)('1'), board);
-			struct Move* temp = moves->firstMove;
-			if (temp != NULL){
-				char x = temp->src.x + 'a';
-				int y = temp->src.y + 1;
-				char i, j;
+			if (moves != NULL){
+				struct Move* temp = moves->firstMove;
+				if (temp != NULL){
+					char x = temp->src.x + 'a';
+					int y = temp->src.y + 1;
+					char i, j;
 
-				while (temp != NULL)
-				{
-					struct Move* moveToFree;
-					i = temp->dst.x + 'a';
-					j = temp->dst.y + 1;
-					printf("move <%c,%d> to <%c,%d>", x, y, i, j);
-					if (temp->promotion != NULL)
-						printf(" %s", temp->promotion);
-					printf("\n");
-					moveToFree = temp;
-					temp = temp->next;
-					free(moveToFree);
-					moveLeaks--;
+					while (temp != NULL)
+					{
+						struct Move* moveToFree;
+						i = temp->dst.x + 'a';
+						j = temp->dst.y + 1;
+						printf("move <%c,%d> to <%c,%d>", x, y, i, j);
+						if (temp->promotion != NULL)
+							printf(" %s", temp->promotion);
+						printf("\n");
+						moveToFree = temp;
+						temp = temp->next;
+						free(moveToFree);
+						moveLeaks--;
 
+					}
 				}
 			}
 		}

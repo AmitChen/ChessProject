@@ -62,7 +62,6 @@ int Score(char some_board[BOARD_SIZE][BOARD_SIZE], char* color){
 //  All the checks are done in Chess_CommandLine.c so (x,y) is a valid non-empty position on board
 //TODO
 struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
-	struct Moves* moves = NULL;
 	char pieceToMove = some_board[x][y];
 	switch (pieceToMove){ //TODO
 	case W_PAWN:
@@ -89,9 +88,10 @@ struct Moves* getMovesForPosition(int x, int y, char some_board[BOARD_SIZE][BOAR
 		return QueenMoves(x, y, some_board);
 	case B_KING:
 		return KingMoves(x, y, some_board);
+	default:
+		return NULL;
 		;
 	}
-	return moves;
 }
 
 
@@ -439,46 +439,62 @@ struct Moves* RookMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 struct Moves* KnightMoves(int x, int y, char some_board[BOARD_SIZE][BOARD_SIZE]){
 	struct Moves* moves = calloc(1, sizeof(struct Moves));
 	movesLeaks++;
-	struct Move* move = NULL;
+	struct Move* move;
 	if (isWhite(some_board[x][y])){ // knight piece is white
 		if (x - 2 >= 0){
 			if (y - 1 >= 0 && (isBlack(some_board[x - 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY)){
 				move = createMove(x, y, x - 2, y - 1, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 			if (y + 1 <= 7 && (isBlack(some_board[x - 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY)){
 				move = createMove(x, y, x - 2, y + 1, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 		}
 		if (x +2 <= 7){
 			if (y - 1 >= 0 && (isBlack(some_board[x + 2][y - 1]) || some_board[x - 2][y - 1] == EMPTY)){
 				move = createMove(x, y, x + 2, y - 1, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 			if (y + 1 <= 7 && (isBlack(some_board[x + 2][y + 1]) || some_board[x - 2][y + 1] == EMPTY)){
 				move = createMove(x, y, x + 2, y + 1, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 		}
 		if (y + 2 <= 7){
 			if (x - 1 >= 0 && (isBlack(some_board[x - 1][y + 2]) || some_board[x - 1][y + 2] == EMPTY)){
 				move = createMove(x, y, x - 1, y + 2, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 			if (x + 1 <= 7 && (isBlack(some_board[x + 1][y + 2]) || some_board[x + 1][y + 2] == EMPTY)){
 				move = createMove(x, y, x + 1, y + 2, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 		}
 		if (y - 2 >=0){
 			if (x - 1 >= 0 && (isBlack(some_board[x - 1][y - 2]) || some_board[x - 1][y - 2] == EMPTY)){
 				move = createMove(x, y, x - 1, y - 2, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 			if (x + 1 <= 7 && (isBlack(some_board[x + 1][y - 2]) || some_board[x + 1][y - 2] == EMPTY)){
 				move = createMove(x, y, x + 1, y - 2, some_board, NULL);
 				addMoveToMovesList(move, moves);
+				free(move);
+				moveLeaks--;
 			}
 		}
 	}
@@ -651,13 +667,13 @@ void addMoveToMovesList(struct Move* move, struct Moves* moves){
 	moveLeaks++;
 	CopyMove(moveToAdd,move);
 	if (moves->firstMove == NULL){ // list is empty
-		moves->firstMove = move;
-		moves->lastMove = move;
+		moves->firstMove = moveToAdd;
+		moves->lastMove = moveToAdd;
 	}
 	else{
-		moves->lastMove->next = move;
-		move->prev = moves->lastMove;
-		moves->lastMove = move;
+		moves->lastMove->next = moveToAdd;
+		moveToAdd->prev = moves->lastMove;
+		moves->lastMove = moveToAdd;
 	}
 
 }
